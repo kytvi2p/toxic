@@ -89,7 +89,6 @@ static int init_logging_session(char *name, const char *selfkey, const char *oth
         snprintf(log_path, sizeof(log_path), "%s%s%s-%s%s%s.log", user_config_dir, LOGDIR, self_id, name, namedash, other_id);
 
     free(user_config_dir);
-
     log->file = fopen(log_path, "a+");
     snprintf(log->path, sizeof(log->path), "%s", log_path);
 
@@ -157,14 +156,7 @@ void load_chat_history(ToxWindow *self, struct chatlog *log)
     if (log->file == NULL)
         return;
 
-    struct stat st;
-
-    if (stat(log->path, &st) == -1) {
-        line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, RED, "* Failed to stat log file");
-        return;
-    }
-
-    int sz = st.st_size;
+    off_t sz = file_size(log->path);
 
     if (sz <= 0)
         return;
@@ -174,9 +166,15 @@ void load_chat_history(ToxWindow *self, struct chatlog *log)
     if (hstbuf == NULL)
         exit_toxic_err("failed in load_chat_history", FATALERR_MEMORY);
 
+    if (fseek(log->file, 0L, SEEK_SET) == -1) {
+        free(hstbuf);
+        line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, RED, " * Failed to read log file");
+        return;
+    }
+
     if (fread(hstbuf, sz, 1, log->file) != 1) {
         free(hstbuf);
-        line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, RED, "* Failed to read log file");
+        line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, RED, " * Failed to read log file");
         return;
     }
 
@@ -197,7 +195,7 @@ void load_chat_history(ToxWindow *self, struct chatlog *log)
         return;
     }
 
-    while (line != NULL) {
+    while (line != NULL && count--) {
         line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "%s", line);
         line = strtok(NULL, "\n");
     }

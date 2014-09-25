@@ -528,7 +528,12 @@ static void chat_onFileControl(ToxWindow *self, Tox *m, int32_t num, uint8_t rec
             uint64_t datapos;
             memcpy(&datapos, tmp, sizeof(uint64_t));
 
-            fseek(fp, datapos, SEEK_SET);
+            if (fseek(fp, datapos, SEEK_SET) == -1) {
+                snprintf(msg, sizeof(msg), "File transfer for '%s' failed.", filename);
+                close_file_sender(self, m, send_idx, NULL, TOX_FILECONTROL_FINISHED, filenum, num);
+                break;
+            }
+
             tox_file_send_control(m, num, 0, filenum, TOX_FILECONTROL_ACCEPT, 0, 0);
             file_senders[send_idx].noconnection = false;
             break;
@@ -923,6 +928,7 @@ static void chat_onKey(ToxWindow *self, Tox *m, wint_t key, bool ltr)
 
         wclear(ctx->linewin);
         wmove(self->window, y2 - CURS_Y_OFFSET, 0);
+        line_info_reset_start(self, ctx->hst);
         reset_buf(ctx);
     }
 
@@ -1017,7 +1023,7 @@ static void chat_onDraw(ToxWindow *self, Tox *m)
     }
 
     if (statusbar->statusmsg[0])
-        wprintw(statusbar->topline, "- %s ", statusbar->statusmsg);
+        wprintw(statusbar->topline, ": %s ", statusbar->statusmsg);
 
     wclrtoeol(statusbar->topline);
     wmove(statusbar->topline, 0, x2 - (KEY_IDENT_DIGITS * 2) - 3);

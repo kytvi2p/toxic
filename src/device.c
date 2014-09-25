@@ -102,9 +102,7 @@ DeviceError init_devices()
 #endif /* AUDIO */
 {
     const char *stringed_device_list;
-    
-    
-    
+
     size[input] = 0;
     if ( (stringed_device_list = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER)) ) {
         ddevice_names[input] = alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER);
@@ -114,8 +112,6 @@ DeviceError init_devices()
             stringed_device_list += strlen( stringed_device_list ) + 1;
         }
     }
-    
-    
     
     size[output] = 0;
     if ( (stringed_device_list = alcGetString(NULL, ALC_DEVICE_SPECIFIER)) ) {
@@ -128,8 +124,8 @@ DeviceError init_devices()
     }
     
     // Start poll thread
-    
-    pthread_mutex_init(&mutex, NULL);
+    if (pthread_mutex_init(&mutex, NULL) != 0)
+        return de_InternalError;
     
     pthread_t thread_id;
     if ( pthread_create(&thread_id, NULL, thread_poll, NULL) != 0 || pthread_detach(thread_id) != 0) 
@@ -148,7 +144,8 @@ DeviceError terminate_devices()
     thread_running = false;
     usleep(20000);
     
-    pthread_mutex_destroy(&mutex);
+    if (pthread_mutex_destroy(&mutex) != 0)
+        return (DeviceError) de_InternalError;
     
     return (DeviceError) de_None;
 }
@@ -239,7 +236,12 @@ DeviceError open_device(DeviceType type, int32_t selection, uint32_t* device_idx
                 device->source = running[type][i]->source;
             }
             device->ref_count++;
-            pthread_mutex_init(device->mutex, NULL);
+
+            if (pthread_mutex_init(device->mutex, NULL) != 0) {
+                unlock;
+                return de_InternalError;
+            }
+
             unlock;
             return de_None;
         }
@@ -291,7 +293,11 @@ DeviceError open_device(DeviceType type, int32_t selection, uint32_t* device_idx
         thread_paused = false;
     }
     
-    pthread_mutex_init(device->mutex, NULL);
+    if (pthread_mutex_init(device->mutex, NULL) != 0) {
+        unlock;
+        return de_InternalError;
+    }
+
     unlock;
     return de_None;
 }

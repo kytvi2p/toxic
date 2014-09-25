@@ -87,7 +87,7 @@ void get_time_str(char *buf, int bufsize)
         return;
     }
 
-    const char *t = user_settings->time == TIME_12 ? "[%-I:%M:%S] " : "[%H:%M:%S] ";
+    const char *t = user_settings->time == TIME_12 ? "%-I:%M:%S " : "%H:%M:%S ";
     strftime(buf, bufsize, t, get_time());
 }
 
@@ -310,4 +310,15 @@ bool file_exists(const char *path)
 {
     struct stat s;
     return stat(path, &s) == 0;
+}
+
+/* returns file size or -1 on error */
+off_t file_size(const char *path)
+{
+    struct stat st;
+
+    if (stat(path, &st) == -1)
+        return -1;
+
+    return st.st_size;
 }

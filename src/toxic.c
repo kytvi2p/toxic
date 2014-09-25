@@ -629,9 +629,12 @@ static void load_data(Tox *m, char *path)
     FILE *fd;
 
     if ((fd = fopen(path, "rb")) != NULL) {
-        fseek(fd, 0, SEEK_END);
-        int len = ftell(fd);
-        fseek(fd, 0, SEEK_SET);
+        off_t len = file_size(path);
+
+        if (len == -1) {
+            fclose(fd);
+            exit_toxic_err("failed in load_data", FATALERR_FILEOP);
+        }
 
         char *buf = malloc(len);
 
@@ -643,7 +646,7 @@ static void load_data(Tox *m, char *path)
         if (fread(buf, len, 1, fd) != 1) {
             free(buf);
             fclose(fd);
-            exit_toxic_err("failed in load_data", FATALERR_FREAD);
+            exit_toxic_err("failed in load_data", FATALERR_FILEOP);
         }
 
         bool is_encrypted = tox_is_data_encrypted((uint8_t *) buf);

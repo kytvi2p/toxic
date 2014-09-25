@@ -48,8 +48,8 @@ void line_info_init(struct history *hst)
     hst->queue_sz = 0;
 }
 
-/* resets line_start (page end) */
-static void line_info_reset_start(ToxWindow *self, struct history *hst)
+/* resets line_start (moves to end of chat history) */
+void line_info_reset_start(ToxWindow *self, struct history *hst)
 {
     struct line_info *line = hst->line_end;
 
@@ -111,13 +111,13 @@ static void line_info_root_fwd(struct history *hst)
     hst->line_root = tmp;
 }
 
-/* returns ptr to queue item 0 and removes it from queue */
+/* returns ptr to queue item 0 and removes it from queue. Returns NULL if queue is empty. */
 static struct line_info *line_info_ret_queue(struct history *hst)
 {
     if (hst->queue_sz <= 0)
         return NULL;
 
-    struct line_info *ret = hst->queue[0];
+    struct line_info *line = hst->queue[0];
 
     int i;
 
@@ -126,7 +126,7 @@ static struct line_info *line_info_ret_queue(struct history *hst)
 
     --hst->queue_sz;
 
-    return ret;
+    return line;
 }
 
 /* creates new line_info line and puts it in the queue. */
@@ -165,10 +165,14 @@ void line_info_add(ToxWindow *self, char *timestr, char *name1, char *name2, uin
             break;
 
         case CONNECTION:
-            len += 3;
+            len += 5;
             break;
 
         case SYS_MSG:
+            break;
+
+        case NAME_CHANGE:
+            len += 4;
             break;
 
         case PROMPT:
@@ -395,9 +399,12 @@ void line_info_print(ToxWindow *self)
                 wattroff(win, COLOR_PAIR(BLUE));
 
                 wattron(win, COLOR_PAIR(line->colour));
+                wprintw(win, "%s ", line->colour == RED ? "<--" : "-->");
+
                 wattron(win, A_BOLD);
-                wprintw(win, "* %s ", line->name1);
+                wprintw(win, "%s ", line->name1);
                 wattroff(win, A_BOLD);
+
                 wprintw(win, "%s\n", line->msg);
                 wattroff(win, COLOR_PAIR(line->colour));
 
@@ -409,8 +416,9 @@ void line_info_print(ToxWindow *self)
                 wattroff(win, COLOR_PAIR(BLUE));
 
                 wattron(win, COLOR_PAIR(MAGENTA));
+                wprintw(win, "-!- ");
                 wattron(win, A_BOLD);
-                wprintw(win, "* %s", line->name1);
+                wprintw(win, "%s", line->name1);
                 wattroff(win, A_BOLD);
 
                 wprintw(win, "%s", line->msg);

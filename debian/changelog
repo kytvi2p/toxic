@@ -1,4 +1,4 @@
-toxic (0.5.1+20140928.1-1) unstable; urgency=medium
+toxic (0.5.1+20140928.2-1) unstable; urgency=medium
 
   [ Jfreegman ]
   * more UI changes
@@ -14,6 +14,7 @@ toxic (0.5.1+20140928.1-1) unstable; urgency=medium
   * keep chatlog names consistent with friend name changes
   * a couple fixes
   * core API update and refactor group invites a bit
+  * bug fixes and code cleanup
 
   [ Kill Your TV ]
   * New git upstream snapshot

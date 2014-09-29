@@ -37,6 +37,7 @@
 #include "settings.h"
 #include "notify.h"
 #include "help.h"
+#include "log.h"
 
 #ifdef AUDIO
 #include "audio_call.h"
@@ -52,9 +53,9 @@ extern struct arg_opts arg_opts;
 
 static uint8_t blocklist_view = 0;   /* 0 if we're in friendlist view, 1 if we're in blocklist view */
 
-_Friends Friends;
+FriendsList Friends;
 
-static struct _Blocked {
+static struct Blocked {
     int num_selected;
     int max_idx;
     int num_blocked;
@@ -63,7 +64,7 @@ static struct _Blocked {
     BlockedFriend *list;
 } Blocked;
 
-static struct _pendingDel {
+static struct pendingDel {
     int num;
     bool active;
     WINDOW *popup;
@@ -111,6 +112,13 @@ static void realloc_blocklist(int n)
 
 void kill_friendlist(void)
 {
+    int i;
+
+    for (i = 0; i <= Friends.max_idx; ++i) {
+        if (Friends.list[i].active && Friends.list[i].group_invite.key != NULL)
+            free(Friends.list[i].group_invite.key);
+    }
+
     realloc_blocklist(0);
     realloc_friends(0);
 }
@@ -163,6 +171,7 @@ static int save_blocklist(char *path)
         ret = 0;
 
     fclose(fp);
+    return ret;
 
 on_error:
     free(data);
@@ -334,12 +343,27 @@ static void friendlist_onNickChange(ToxWindow *self, Tox *m, int32_t num, const 
     if (len > TOX_MAX_NAME_LENGTH || num >= Friends.max_idx)
         return;
 
+    /* save old name for log renaming */
+    char oldname[TOXIC_MAX_NAME_LENGTH];
+    snprintf(oldname, sizeof(oldname), "%s", Friends.list[num].name);
+
+    /* update name */
     char tempname[TOX_MAX_NAME_LENGTH];
     strcpy(tempname, nick);
     len = MIN(len, TOXIC_MAX_NAME_LENGTH - 1);
     tempname[len] = '\0';
     snprintf(Friends.list[num].name, sizeof(Friends.list[num].name), "%s", tempname);
     Friends.list[num].namelength = len;
+
+    /* get data for chatlog renaming */
+    char newnamecpy[TOXIC_MAX_NAME_LENGTH];
+    char myid[TOX_FRIEND_ADDRESS_SIZE];
+    strcpy(newnamecpy, tempname);
+    tox_get_address(m, (uint8_t *) myid);
+
+    if (strcmp(oldname, newnamecpy) != 0)
+        rename_logfile(oldname, newnamecpy, myid, Friends.list[num].pub_key, Friends.list[num].chatwin);
+
     sort_friendlist_index();
 }
 
@@ -462,7 +486,7 @@ static void friendlist_onFileSendRequest(ToxWindow *self, Tox *m, int32_t num, u
     }
 }
 
-static void friendlist_onGroupInvite(ToxWindow *self, Tox *m, int32_t num, const char *group_pub_key)
+static void friendlist_onGroupInvite(ToxWindow *self, Tox *m, int32_t num, const char *group_pub_key, uint16_t length)
 {
     if (num >= Friends.max_idx)
         return;
@@ -504,6 +528,9 @@ static void delete_friend(Tox *m, int32_t f_num)
             set_active_window(1);   /* keep friendlist focused */
         }
     }
+
+    if (Friends.list[f_num].group_invite.key != NULL)
+        free(Friends.list[f_num].group_invite.key);
 
     tox_del_friend(m, f_num);
     memset(&Friends.list[f_num], 0, sizeof(ToxicFriend));

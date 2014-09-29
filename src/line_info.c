@@ -156,12 +156,12 @@ void line_info_add(ToxWindow *self, char *timestr, char *name1, char *name2, uin
     switch (type) {
         case IN_ACTION:
         case OUT_ACTION:
-            len += 3;
+            len += 5;
             break;
 
         case IN_MSG:
         case OUT_MSG:
-            len += 2;
+            len += 6;
             break;
 
         case CONNECTION:
@@ -258,6 +258,10 @@ static void line_info_check_queue(ToxWindow *self)
             ++hst->start_id;
         }
     }
+
+    /* force move to bottom of history when we print an outgoing message */
+    if (line->type == OUT_MSG)
+        line_info_reset_start(self, hst);
 }
 
 #define NOREAD_FLAG_TIMEOUT 5    /* seconds before a sent message with no read receipt is flagged as unread */
@@ -309,7 +313,7 @@ void line_info_print(ToxWindow *self)
                     nameclr = CYAN;
 
                 wattron(win, COLOR_PAIR(nameclr));
-                wprintw(win, "%s: ", line->name1);
+                wprintw(win, "--- %s: ", line->name1);
                 wattroff(win, COLOR_PAIR(nameclr));
 
                 if (line->msg[0] == '>')
@@ -342,7 +346,7 @@ void line_info_print(ToxWindow *self)
                 wattroff(win, COLOR_PAIR(BLUE));
 
                 wattron(win, COLOR_PAIR(YELLOW));
-                wprintw(win, "* %s %s", line->name1, line->msg);
+                wprintw(win, "-*- %s %s", line->name1, line->msg);
                 wattroff(win, COLOR_PAIR(YELLOW));
 
                 if (type == OUT_ACTION && timed_out(line->timestamp, get_unix_time(), NOREAD_FLAG_TIMEOUT)) {

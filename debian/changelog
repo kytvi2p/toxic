@@ -1,3 +1,26 @@
+toxic (0.5.1+20140928.2-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * more UI changes
+  * implement avatars (setting only) and generalize path tab-complete
+  * a few fixes, update example config file
+
+  [ Ansa89 ]
+  * notify.c: better headers order
+  * Add stdlib.h header to allow off_t type
+
+  [ Jfreegman ]
+  * fix CPU usage issue regarding audio drivers, courtesy of mannol
+  * keep chatlog names consistent with friend name changes
+  * a couple fixes
+  * core API update and refactor group invites a bit
+  * bug fixes and code cleanup
+
+  [ Kill Your TV ]
+  * New git upstream snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 28 Sep 2014 12:50:28 +0000
+
 toxic (0.5.1+20140925.1-1ubuntu1) trusty; urgency=medium
 
   * Upload to PPA

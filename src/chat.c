@@ -53,7 +53,7 @@
 extern char *DATA_FILE;
 
 extern FileSender file_senders[MAX_FILES];
-extern _Friends Friends;
+extern FriendsList Friends;
 
 extern struct Winthread Winthread;
 extern struct user_settings *user_settings;
@@ -64,15 +64,16 @@ static void kill_infobox(ToxWindow *self);
 #endif  /* AUDIO */
 
 #ifdef AUDIO
-#define AC_NUM_CHAT_COMMANDS 26
+#define AC_NUM_CHAT_COMMANDS 27
 #else
-#define AC_NUM_CHAT_COMMANDS 19
+#define AC_NUM_CHAT_COMMANDS 20
 #endif /* AUDIO */
 
 /* Array of chat command names used for tab completion. */
 static const char chat_cmd_list[AC_NUM_CHAT_COMMANDS][MAX_CMDNAME_SIZE] = {
     { "/accept"     },
     { "/add"        },
+    { "/avatar"     },
     { "/cancel"     },
     { "/clear"      },
     { "/close"      },
@@ -198,7 +199,7 @@ static void chat_onConnectionChange(ToxWindow *self, Tox *m, int32_t num, uint8_
     if (status == 1) { /* Friend goes online */
         statusbar->is_online = true;
         Friends.list[num].is_typing = user_settings->show_typing_other == SHOW_TYPING_ON 
-                                 ? tox_get_is_typing(m, num) : 0;
+                                      ? tox_get_is_typing(m, num) : 0;
         chat_resume_file_transfers(m, num);
 
         msg = "has come online";
@@ -562,28 +563,36 @@ static void chat_onFileData(ToxWindow *self, Tox *m, int32_t num, uint8_t filenu
     Friends.list[num].file_receiver[filenum].bytes_recv += length;
 }
 
-static void chat_onGroupInvite(ToxWindow *self, Tox *m, int32_t friendnumber, const char *group_pub_key)
+static void chat_onGroupInvite(ToxWindow *self, Tox *m, int32_t friendnumber, const char *group_pub_key, uint16_t length)
 {
     if (self->num != friendnumber)
         return;
 
+    if (Friends.list[friendnumber].group_invite.key != NULL)
+        free(Friends.list[friendnumber].group_invite.key);
+
+    char *k = malloc(length);
+
+    if (k == NULL)
+        exit_toxic_err("Failed in chat_onGroupInvite", FATALERR_MEMORY);
+
+    memcpy(k, group_pub_key, length);
+    Friends.list[friendnumber].group_invite.key = k;
+    Friends.list[friendnumber].group_invite.pending = true;
+    Friends.list[friendnumber].group_invite.length = length;
+
     char name[TOX_MAX_NAME_LENGTH];
     get_nick_truncate(m, name, friendnumber);
 
-    line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "%s has invited you to a group chat.", name);
-    line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "Type \"/join\" to join the chat.");
-
-    memcpy(Friends.list[friendnumber].groupchat_key, group_pub_key, 
-           sizeof(Friends.list[friendnumber].groupchat_key));
-    Friends.list[friendnumber].groupchat_pending = true;
-
-    
     sound_notify(self, generic_message, NT_WNDALERT_2, NULL);
-    
+
     if (self->active_box != -1)
         box_silent_notify2(self, NT_WNDALERT_2 | NT_NOFOCUS, self->active_box, "invites you to join group chat");
     else
         box_silent_notify(self, NT_WNDALERT_2 | NT_NOFOCUS, &self->active_box, name, "invites you to join group chat");
+
+    line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "%s has invited you to a group chat.", name);
+    line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "Type \"/join\" to join the chat.");
 }
 
 /* Av Stuff */
@@ -879,8 +888,11 @@ static void chat_onKey(ToxWindow *self, Tox *m, wint_t key, bool ltr)
     if (key == '\t' && ctx->len > 1 && ctx->line[0] == '/') {    /* TAB key: auto-complete */
         int diff = -1;
 
+        /* TODO: make this not suck */
         if (wcsncmp(ctx->line, L"/sendfile \"", wcslen(L"/sendfile \"")) == 0) {
-            diff = dir_match(self, m, ctx->line);
+            diff = dir_match(self, m, ctx->line, L"/sendfile");
+        } else if (wcsncmp(ctx->line, L"/avatar \"", wcslen(L"/avatar \"")) == 0) {
+            diff = dir_match(self, m, ctx->line, L"/avatar");
         } else {
             diff = complete_line(self, chat_cmd_list, AC_NUM_CHAT_COMMANDS, MAX_CMDNAME_SIZE);
         }
@@ -928,7 +940,6 @@ static void chat_onKey(ToxWindow *self, Tox *m, wint_t key, bool ltr)
 
         wclear(ctx->linewin);
         wmove(self->window, y2 - CURS_Y_OFFSET, 0);
-        line_info_reset_start(self, ctx->hst);
         reset_buf(ctx);
     }
 

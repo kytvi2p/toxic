@@ -56,6 +56,7 @@
 #include "notify.h"
 #include "device.h"
 #include "message_queue.h"
+#include "execute.h"
 
 #ifdef AUDIO
 #include "audio_call.h"
@@ -222,7 +223,7 @@ static void queue_init_message(const char *msg, ...)
     init_messages.msgs = new_msgs;
 }
 
-/* called after messages have been printed to console and are no longer needed */
+/* called after messages have been printed to prompt and are no longer needed */
 static void cleanup_init_messages(void)
 {
     if (init_messages.num <= 0)
@@ -1004,7 +1005,7 @@ int main(int argc, char *argv[])
     Tox *m = init_tox();
 
     if (m == NULL)
-        exit_toxic_err("failed in main", FATALERR_NETWORKINIT);
+        exit_toxic_err("failed in main", FATALERR_NETWORKINIT); 
 
     if (!arg_opts.ignore_data_file) {
         if (arg_opts.encrypt_data && !datafile_exists)
@@ -1060,6 +1061,11 @@ int main(int argc, char *argv[])
 
     print_init_messages(prompt);
     cleanup_init_messages();
+
+    /* set user avatar from config file. if no valid path is supplied tox_unset_avatar is called */
+    char avatarstr[MAX_STR_SIZE];
+    snprintf(avatarstr, sizeof(avatarstr), "/avatar \"%s\"", user_settings->avatar_path);
+    execute(prompt->chatwin->history, prompt, m, avatarstr, GLOBAL_COMMAND_MODE);
 
     uint64_t last_save = (uint64_t) time(NULL);
     uint64_t looptimer = last_save;

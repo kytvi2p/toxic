@@ -27,9 +27,9 @@
 #include "windows.h"
 
 #ifdef AUDIO
-#define AC_NUM_GLOB_COMMANDS 18
+#define AC_NUM_GLOB_COMMANDS 19
 #else
-#define AC_NUM_GLOB_COMMANDS 16
+#define AC_NUM_GLOB_COMMANDS 17
 #endif /* AUDIO */
 
 #define MAX_FRIEND_REQUESTS 32
@@ -44,7 +44,7 @@ typedef struct {
     int max_idx;
     int num_requests;
     struct friend_request request[MAX_FRIEND_REQUESTS];
-} _FriendRequests;
+} FriendRequests;
 
 ToxWindow new_prompt(void);
 void prep_prompt_win(void);

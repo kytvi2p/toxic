@@ -1,14 +1,14 @@
+toxic (0.5.2-1ubuntu1) trusty; urgency=medium
+
+  * Upload to PPA
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 30 Sep 2014 21:23:21 +0000
+
 toxic (0.5.2-1) unstable; urgency=medium
 
   * New upstream version
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 30 Sep 2014 19:48:39 +0000
-
-toxic (0.5.1+20140928.2-1ubuntu1) trusty; urgency=medium
-
-  * Upload to PPA
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 29 Sep 2014 10:56:14 +0000
 
 toxic (0.5.1+20140928.2-1) unstable; urgency=medium
 

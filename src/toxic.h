@@ -42,7 +42,7 @@
 
 #define UNKNOWN_NAME "Anonymous"
 
-#define MAX_STR_SIZE TOX_MAX_MESSAGE_LENGTH
+#define MAX_STR_SIZE TOX_MAX_MESSAGE_LENGTH    /* must be >= TOX_MAX_MESSAGE_LENGTH */
 #define MAX_CMDNAME_SIZE 64
 #define TOXIC_MAX_NAME_LENGTH 32   /* Must be <= TOX_MAX_NAME_LENGTH */
 #define KEY_IDENT_DIGITS 3    /* number of hex digits to display for the pub-key based identifier */
@@ -62,6 +62,7 @@
 #define T_KEY_C_F        0x06     /* ctrl-f */
 #define T_KEY_C_H        0x08     /* ctrl-h */
 #define T_KEY_C_Y        0x19     /* ctrl-y */
+#define T_KEY_C_L        0x0C     /* ctrl-l */
 #define T_KEY_TAB        0x09     /* TAB key */
 
 #define ONLINE_CHAR "*"

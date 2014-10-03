@@ -138,7 +138,7 @@ static int save_blocklist(char *path)
         exit_toxic_err("Failed in save_blocklist", FATALERR_MEMORY);
 
     int i;
-    int ret = -1;
+
     int count = 0;
 
     for (i = 0; i < Blocked.max_idx; ++i) {
@@ -168,14 +168,14 @@ static int save_blocklist(char *path)
         goto on_error;
 
     if (fwrite(data, len, 1, fp) == 1)
-        ret = 0;
+        goto on_error;
 
     fclose(fp);
-    return ret;
+    return 0;
 
 on_error:
     free(data);
-    return ret;
+    return -1;
 }
 
 static void sort_blocklist_index(void);
@@ -340,25 +340,21 @@ static void friendlist_onConnectionChange(ToxWindow *self, Tox *m, int32_t num, 
 
 static void friendlist_onNickChange(ToxWindow *self, Tox *m, int32_t num, const char *nick, uint16_t len)
 {
-    if (len > TOX_MAX_NAME_LENGTH || num >= Friends.max_idx)
+    if (num >= Friends.max_idx)
         return;
 
     /* save old name for log renaming */
-    char oldname[TOXIC_MAX_NAME_LENGTH];
+    char oldname[TOXIC_MAX_NAME_LENGTH + 1];
     snprintf(oldname, sizeof(oldname), "%s", Friends.list[num].name);
 
     /* update name */
-    char tempname[TOX_MAX_NAME_LENGTH];
-    strcpy(tempname, nick);
-    len = MIN(len, TOXIC_MAX_NAME_LENGTH - 1);
-    tempname[len] = '\0';
-    snprintf(Friends.list[num].name, sizeof(Friends.list[num].name), "%s", tempname);
-    Friends.list[num].namelength = len;
+    snprintf(Friends.list[num].name, sizeof(Friends.list[num].name), "%s", nick);
+    Friends.list[num].namelength = strlen(Friends.list[num].name);
 
     /* get data for chatlog renaming */
-    char newnamecpy[TOXIC_MAX_NAME_LENGTH];
+    char newnamecpy[TOXIC_MAX_NAME_LENGTH + 1];
     char myid[TOX_FRIEND_ADDRESS_SIZE];
-    strcpy(newnamecpy, tempname);
+    strcpy(newnamecpy, Friends.list[num].name);
     tox_get_address(m, (uint8_t *) myid);
 
     if (strcmp(oldname, newnamecpy) != 0)

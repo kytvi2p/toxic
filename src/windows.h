@@ -146,7 +146,7 @@ struct ToxWindow {
 
     int active_box; /* For box notify */
     
-    char name[TOXIC_MAX_NAME_LENGTH];
+    char name[TOXIC_MAX_NAME_LENGTH + 1];
     int32_t num;    /* corresponds to friendnumber in chat windows */
     bool active;
     int x;
@@ -168,9 +168,9 @@ struct ToxWindow {
 /* statusbar info holder */
 struct StatusBar {
     WINDOW *topline;
-    char statusmsg[TOX_MAX_STATUSMESSAGE_LENGTH];
+    char statusmsg[TOX_MAX_STATUSMESSAGE_LENGTH + 1];
     uint16_t statusmsg_len;
-    char nick[TOXIC_MAX_NAME_LENGTH];
+    char nick[TOXIC_MAX_NAME_LENGTH + 1];
     int nick_len;
     uint8_t status;
     bool is_online;
@@ -242,6 +242,7 @@ void set_active_window(int ch);
 int get_num_active_windows(void);
 void kill_all_windows(Tox *m);    /* should only be called on shutdown */
 void on_window_resize(void);
+void force_refresh(WINDOW *w);
 ToxWindow *get_window_ptr(int i);
 
 /* refresh inactive windows to prevent scrolling bugs. 

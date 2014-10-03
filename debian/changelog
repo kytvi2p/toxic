@@ -1,3 +1,23 @@
+toxic (0.5.2+20141003.1-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * don't show version in default status message
+  * new default sounds; rm unused sounds
+  * refine a couple sound effects
+  * forced end of page is not working out
+  * make ctrl-L force refresh the window
+  * replace call sounds
+  * better data operation error handling
+  * ignore tox_load errors until toxcore is fixed
+  * some temporary fixes for new wip groupchats
+  * safer string handling
+  * core groupchat names should be working
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 03 Oct 2014 22:17:02 +0000
+
 toxic (0.5.2-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

@@ -116,14 +116,17 @@ static void set_self_typingstatus(ToxWindow *self, Tox *m, uint8_t is_typing)
     ctx->self_is_typing = is_typing;
 }
 
-static void chat_set_window_name(ToxWindow *self, char *nick, int len)
-{
+static void chat_set_window_name(ToxWindow *self, const char *nick, int len)
+{   
+    char nick_cpy[TOXIC_MAX_NAME_LENGTH + 1];
+    snprintf(nick_cpy, sizeof(nick_cpy), "%s", nick);
+
     if (len > MAX_WINDOW_NAME_LENGTH) {
-        strcpy(&nick[MAX_WINDOW_NAME_LENGTH - 3], "...");
-        nick[MAX_WINDOW_NAME_LENGTH] = '\0';
+        strcpy(&nick_cpy[MAX_WINDOW_NAME_LENGTH - 3], "...");
+        nick_cpy[MAX_WINDOW_NAME_LENGTH] = '\0';
     }
 
-    snprintf(self->name, sizeof(self->name), "%s", nick);
+    snprintf(self->name, sizeof(self->name), "%s", nick_cpy);
 }
 
 static void close_all_file_receivers(Tox *m, int friendnum);
@@ -576,7 +579,7 @@ static void chat_onGroupInvite(ToxWindow *self, Tox *m, int32_t friendnumber, co
     Friends.list[friendnumber].group_invite.pending = true;
     Friends.list[friendnumber].group_invite.length = length;
 
-    char name[TOX_MAX_NAME_LENGTH + 1];
+    char name[TOX_MAX_NAME_LENGTH];
     get_nick_truncate(m, name, friendnumber);
 
     sound_notify(self, generic_message, NT_WNDALERT_2, NULL);

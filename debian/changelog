@@ -1,3 +1,13 @@
+toxic (0.5.2+20141006.2-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * escape newlines in contact names/status messages
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 06 Oct 2014 20:30:15 +0000
+
 toxic (0.5.2+20141006.1-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

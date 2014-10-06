@@ -1,10 +1,20 @@
+toxic (0.5.2+20141006.1-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * implement word deletion via ^W
+
+  [ Kill Your TV ]
+  * New upstream git snapshot (4355216)
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 06 Oct 2014 15:16:56 +0000
+
 toxic (0.5.2+20141005.1-2ubuntu1) trusty; urgency=medium
 
   * Upload to PPA
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 05 Oct 2014 07:32:59 +0000
 
-toxic (0.5.2+20141005.1-2) unstable; urgency=medium
+toxic (0.5.2+20141005.1-1) unstable; urgency=medium
 
   [ Jfreegman ]
   * small fix

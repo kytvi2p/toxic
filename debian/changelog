@@ -1,10 +1,12 @@
-toxic (0.5.2+20141007.1~git1f2bd44-3~1.gbpaa1d04) UNRELEASED; urgency=medium
+toxic (0.5.2+20141007.2~git9f0daca-1) unstable; urgency=medium
 
-  ** SNAPSHOT build @aa1d041ff5ccc98d596fd4c34214444304672c1c **
+  [ Jfreegman ]
+  * filter escape sequences from all inbound nicks and status messages
 
-  * UNRELEASED
+  [ Kill Your TV ]
+  * New upstream git snapshot
 
- -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 18:08:30 +0000
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 20:28:52 +0000
 
 toxic (0.5.2+20141007.1~git1f2bd44-2) unstable; urgency=medium
 

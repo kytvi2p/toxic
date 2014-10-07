@@ -15,7 +15,7 @@ index 97a1fa6..f616703 100644
  # Version
  TOXIC_VERSION = 0.5.2
 -REV = $(shell git rev-list HEAD --count)
-+REV = 1358
++REV = 1359
  VERSION = $(TOXIC_VERSION)_r$(REV)
  
  # Project directories

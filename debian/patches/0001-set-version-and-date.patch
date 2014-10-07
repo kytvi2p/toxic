@@ -1,0 +1,34 @@
+From: Kill Your TV <killyourtv@i2pmail.org>
+Date: Tue, 7 Oct 2014 14:13:54 +0000
+Subject: set version and date
+
+---
+ cfg/global_vars.mk | 2 +-
+ cfg/targets/doc.mk | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cfg/global_vars.mk b/cfg/global_vars.mk
+index 97a1fa6..f616703 100644
+--- a/cfg/global_vars.mk
++++ b/cfg/global_vars.mk
+@@ -1,6 +1,6 @@
+ # Version
+ TOXIC_VERSION = 0.5.2
+-REV = $(shell git rev-list HEAD --count)
++REV = 1358
+ VERSION = $(TOXIC_VERSION)_r$(REV)
+ 
+ # Project directories
+diff --git a/cfg/targets/doc.mk b/cfg/targets/doc.mk
+index 53efb92..b74b2aa 100644
+--- a/cfg/targets/doc.mk
++++ b/cfg/targets/doc.mk
+@@ -3,7 +3,7 @@ doc: $(MANFILES:%=$(DOC_DIR)/%)
+ 	
+ $(DOC_DIR)/%: $(DOC_DIR)/%.asc
+ 	@echo "  MAN   $(@F)"
+-	@a2x -f manpage -a revdate=$(shell git log -1 --date=short --format="%ad" $<) \
++	@a2x -f manpage -a revdate=2014-10-07 \
+ 		-a manmanual="Toxic Manual" -a mansource=toxic \
+ 		-a manversion=__VERSION__ -a datadir=__DATADIR__ $<
+ 	

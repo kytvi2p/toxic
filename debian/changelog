@@ -1,3 +1,19 @@
+toxic (0.5.2+20141007.1~git1f2bd44-2) unstable; urgency=medium
+
+  * Patch source to set the date and rev
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 14:16:06 +0000
+
+toxic (0.5.2+20141007.1~git1f2bd44-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * don't allow newlines and tabs in nicks
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 12:06:37 +0000
+
 toxic (0.5.2+20141006.2-1ubuntu1) trusty; urgency=medium
 
   * Upload to PPA

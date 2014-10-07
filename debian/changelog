@@ -1,3 +1,11 @@
+toxic (0.5.2+20141007.1~git1f2bd44-3~1.gbpaa1d04) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @aa1d041ff5ccc98d596fd4c34214444304672c1c **
+
+  * UNRELEASED
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 18:08:30 +0000
+
 toxic (0.5.2+20141007.1~git1f2bd44-2) unstable; urgency=medium
 
   * Patch source to set the date and rev

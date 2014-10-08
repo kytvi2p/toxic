@@ -1,3 +1,15 @@
+toxic (0.5.2+20141008.2~git8a88291-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * update DHTnodes
+  * fix groupchat resizing when peerlist is off
+  * fix setting custom keybinding
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Oct 2014 20:59:18 +0000
+
 toxic (0.5.2+20141008.1~gitd3a489b-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

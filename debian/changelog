@@ -1,3 +1,15 @@
+toxic (0.5.2+20141008.1~gitd3a489b-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * reduce system calls, increase time between message queue re-send attempts
+  * add ability to toggle groupchat peerlist with ctrl-b
+  * update settings and docs with peerlist-toggle keybinding
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Oct 2014 09:34:12 +0000
+
 toxic (0.5.2+20141007.2~git9f0daca-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

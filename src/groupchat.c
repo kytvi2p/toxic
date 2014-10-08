@@ -128,6 +128,42 @@ static void close_groupchat(ToxWindow *self, Tox *m, int groupnum)
     kill_groupchat_window(self);
 }
 
+/* destroys and re-creates groupchat window with or without the peerlist */
+void redraw_groupchat_win(ToxWindow *self)
+{
+    ChatContext *ctx = self->chatwin;
+
+    endwin();
+    refresh();
+    clear();
+
+    int x2, y2;
+    getmaxyx(stdscr, y2, x2);
+    y2 -= 2;
+
+    if (ctx->sidebar) {
+        delwin(ctx->sidebar);
+        ctx->sidebar = NULL;
+    }
+
+    delwin(ctx->linewin);
+    delwin(ctx->history);
+    delwin(self->window);
+
+    self->window = newwin(y2, x2, 0, 0);
+    ctx->linewin = subwin(self->window, CHATBOX_HEIGHT, x2, y2 - CHATBOX_HEIGHT, 0);
+
+    if (self->show_peerlist) {
+        ctx->history = subwin(self->window, y2 - CHATBOX_HEIGHT + 1, x2 - SIDEBAR_WIDTH - 1, 0, 0);
+        ctx->sidebar = subwin(self->window, y2 - CHATBOX_HEIGHT + 1, SIDEBAR_WIDTH, 0, x2 - SIDEBAR_WIDTH);
+    } else {
+        ctx->history = subwin(self->window, y2 - CHATBOX_HEIGHT + 1, x2, 0, 0);
+    }
+
+    scrollok(ctx->history, 0);
+
+}
+
 static void groupchat_onGroupMessage(ToxWindow *self, Tox *m, int groupnum, int peernum,
                                      const char *msg, uint16_t len)
 {
@@ -140,6 +176,7 @@ static void groupchat_onGroupMessage(ToxWindow *self, Tox *m, int groupnum, int 
     int n_len = tox_group_peername(m, groupnum, peernum, (uint8_t *) nick);
     n_len = MIN(n_len, TOXIC_MAX_NAME_LENGTH - 1);  /* enforce client max name length */
     nick[n_len] = '\0';
+    filter_str(nick, n_len);
 
     char selfnick[TOX_MAX_NAME_LENGTH];
     uint16_t sn_len = tox_get_self_name(m, (uint8_t *) selfnick);
@@ -239,12 +276,12 @@ static void copy_peernames(int gnum, uint8_t peerlist[][TOX_MAX_NAME_LENGTH], ui
             memcpy(&groupchats[gnum].peer_names[i * N], UNKNOWN_NAME, u_len);
             groupchats[gnum].peer_names[i * N + u_len] = '\0';
             groupchats[gnum].peer_name_lengths[i] = u_len;
-
         } else {
             uint16_t n_len = MIN(lengths[i], TOXIC_MAX_NAME_LENGTH - 1);
             memcpy(&groupchats[gnum].peer_names[i * N], peerlist[i], n_len);
             groupchats[gnum].peer_names[i * N + n_len] = '\0';
             groupchats[gnum].peer_name_lengths[i] = n_len;
+            filter_str((char *) &groupchats[gnum].peer_names[i * N], n_len);
         } 
     }
 
@@ -457,36 +494,38 @@ static void groupchat_onDraw(ToxWindow *self, Tox *m)
         mvwprintw(ctx->linewin, 1, 0, "%ls", &ctx->line[ctx->start]);
 
     wclear(ctx->sidebar);
-
     mvwhline(self->window, y2 - CHATBOX_HEIGHT, 0, ACS_HLINE, x2);
-    mvwvline(ctx->sidebar, 0, 0, ACS_VLINE, y2 - CHATBOX_HEIGHT);
-    mvwaddch(ctx->sidebar, y2 - CHATBOX_HEIGHT, 0, ACS_BTEE);
 
-    int num_peers = groupchats[self->num].num_peers;
+    if (self->show_peerlist) {
+        mvwvline(ctx->sidebar, 0, 0, ACS_VLINE, y2 - CHATBOX_HEIGHT);
+        mvwaddch(ctx->sidebar, y2 - CHATBOX_HEIGHT, 0, ACS_BTEE);
 
-    wmove(ctx->sidebar, 0, 1);
-    wattron(ctx->sidebar, A_BOLD);
-    wprintw(ctx->sidebar, "Peers: %d\n", num_peers);
-    wattroff(ctx->sidebar, A_BOLD);
+        int num_peers = groupchats[self->num].num_peers;
 
-    mvwaddch(ctx->sidebar, 1, 0, ACS_LTEE);
-    mvwhline(ctx->sidebar, 1, 1, ACS_HLINE, SIDEBAR_WIDTH - 1);
+        wmove(ctx->sidebar, 0, 1);
+        wattron(ctx->sidebar, A_BOLD);
+        wprintw(ctx->sidebar, "Peers: %d\n", num_peers);
+        wattroff(ctx->sidebar, A_BOLD);
 
-    int N = TOX_MAX_NAME_LENGTH;
-    int maxlines = y2 - SDBAR_OFST - CHATBOX_HEIGHT;
-    int i;
+        mvwaddch(ctx->sidebar, 1, 0, ACS_LTEE);
+        mvwhline(ctx->sidebar, 1, 1, ACS_HLINE, SIDEBAR_WIDTH - 1);
 
-    for (i = 0; i < num_peers && i < maxlines; ++i) {
-        wmove(ctx->sidebar, i + 2, 1);
-        int peer = i + groupchats[self->num].side_pos;
+        int N = TOX_MAX_NAME_LENGTH;
+        int maxlines = y2 - SDBAR_OFST - CHATBOX_HEIGHT;
+        int i;
 
-        /* truncate nick to fit in side panel without modifying list */
-        char tmpnck[TOX_MAX_NAME_LENGTH];
-        int maxlen = SIDEBAR_WIDTH - 2;
-        memcpy(tmpnck, &groupchats[self->num].peer_names[peer * N], maxlen);
-        tmpnck[maxlen] = '\0';
+        for (i = 0; i < num_peers && i < maxlines; ++i) {
+            wmove(ctx->sidebar, i + 2, 1);
+            int peer = i + groupchats[self->num].side_pos;
 
-        wprintw(ctx->sidebar, "%s\n", tmpnck);
+            /* truncate nick to fit in side panel without modifying list */
+            char tmpnck[TOX_MAX_NAME_LENGTH];
+            int maxlen = SIDEBAR_WIDTH - 2;
+            memcpy(tmpnck, &groupchats[self->num].peer_names[peer * N], maxlen);
+            tmpnck[maxlen] = '\0';
+
+            wprintw(ctx->sidebar, "%s\n", tmpnck);
+        }
     }
 
     int y, x;
@@ -559,6 +598,7 @@ ToxWindow new_group_chat(Tox *m, int groupnum)
     ret.help = help;
 
     ret.num = groupnum;
+    ret.show_peerlist = true;
     ret.active_box = -1;
 
     return ret;

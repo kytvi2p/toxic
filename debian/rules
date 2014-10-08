@@ -1,10 +1,7 @@
 #!/usr/bin/make -f
-# See debhelper(7) (uncomment to enable)
-# output every command that modifies files on the build system.
-DH_VERBOSE = 1
 
 %:
-	dh $@ 
+	dh $@  --parallel
 
 export USER_CFLAGS += $(shell dpkg-buildflags --get CFLAGS)
 export USER_LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
@@ -12,7 +9,9 @@ export USER_LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
 override_dh_auto_build:
 	$(MAKE) -C build PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
 
+override_dh_auto_clean:
+	make -C build clean
+	dh_clean
+
 override_dh_auto_install:
 	$(MAKE) -C build install PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
-
-

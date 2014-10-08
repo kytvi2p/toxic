@@ -1,3 +1,14 @@
+toxic (0.5.2+20141008.3~git0908920-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * fix segfault
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+  * Bump standards version, no source changes needed
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Oct 2014 22:09:07 +0000
+
 toxic (0.5.2+20141008.2~git8a88291-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

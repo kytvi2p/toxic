@@ -1,3 +1,9 @@
+toxic (0.5.2+20141008.1~gitd3a489b-1ubuntu1) trusty; urgency=medium
+
+  * Upload to PPA
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Oct 2014 09:36:55 +0000
+
 toxic (0.5.2+20141008.1~gitd3a489b-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -19,12 +25,6 @@ toxic (0.5.2+20141007.2~git9f0daca-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 20:28:52 +0000
-
-toxic (0.5.2+20141007.1~git1f2bd44-2ubuntu1) trusty; urgency=medium
-
-  * Uplod to PPA
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 07 Oct 2014 14:18:42 +0000
 
 toxic (0.5.2+20141007.1~git1f2bd44-2) unstable; urgency=medium
 

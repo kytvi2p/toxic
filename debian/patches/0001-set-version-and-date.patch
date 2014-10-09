@@ -15,7 +15,7 @@ index 97a1fa6..f616703 100644
  # Version
  TOXIC_VERSION = 0.5.2
 -REV = $(shell git rev-list HEAD --count)
-+REV = 1365
++REV = 1367
  VERSION = $(TOXIC_VERSION)_r$(REV)
  
  # Project directories
@@ -28,7 +28,7 @@ index 53efb92..b74b2aa 100644
  $(DOC_DIR)/%: $(DOC_DIR)/%.asc
  	@echo "  MAN   $(@F)"
 -	@a2x -f manpage -a revdate=$(shell git log -1 --date=short --format="%ad" $<) \
-+	@a2x -f manpage -a revdate=2014-10-08 \
++	@a2x -f manpage -a revdate=2014-10-09 \
  		-a manmanual="Toxic Manual" -a mansource=toxic \
  		-a manversion=__VERSION__ -a datadir=__DATADIR__ $<
  	

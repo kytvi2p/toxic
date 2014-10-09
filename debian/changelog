@@ -1,3 +1,13 @@
+toxic (0.5.2+20141009.1~gite4a28d1-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * make groupchat announcements behave properly
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Oct 2014 15:30:42 +0000
+
 toxic (0.5.2+20141008.3~git0908920-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

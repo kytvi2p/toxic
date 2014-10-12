@@ -1,3 +1,14 @@
+toxic (0.5.2+20141012.r1374-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * possibly fix sound notification bug
+
+  [ Kill Your TV ]
+  * Also create toxic-dbg packages
+  * build with -ggdb flag
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 12 Oct 2014 13:32:46 +0000
+
 toxic (0.5.2+20141009.r1372-1~precise+1) precise; urgency=medium
 
   * Upload to PPA

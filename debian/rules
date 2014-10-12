@@ -3,7 +3,7 @@
 %:
 	dh $@  --parallel
 
-export USER_CFLAGS += $(shell dpkg-buildflags --get CFLAGS)
+export USER_CFLAGS += $(shell dpkg-buildflags --get CFLAGS) -ggdb
 export USER_LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
 
 override_dh_auto_build:
@@ -15,3 +15,6 @@ override_dh_auto_clean:
 
 override_dh_auto_install:
 	$(MAKE) -C build install PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
+
+override_dh_strip:
+	dh_strip --dbg-package=toxic-dbg

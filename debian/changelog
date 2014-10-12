@@ -1,3 +1,9 @@
+toxic (0.5.2+20141012.r1374-2) UNRELEASED; urgency=medium
+
+  * Set proper section and priority for -dbg
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 12 Oct 2014 17:10:35 +0000
+
 toxic (0.5.2+20141012.r1374-1) unstable; urgency=medium
 
   [ Jfreegman ]

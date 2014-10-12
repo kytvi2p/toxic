@@ -1,3 +1,9 @@
+toxic (0.5.2+20141012.r1374-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 12 Oct 2014 16:32:41 +0000
+
 toxic (0.5.2+20141012.r1374-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -8,12 +14,6 @@ toxic (0.5.2+20141012.r1374-1) unstable; urgency=medium
   * build with -ggdb flag
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 12 Oct 2014 13:32:46 +0000
-
-toxic (0.5.2+20141009.r1372-1~deb7u+1) stable; urgency=medium
-
-  * Backport to Wheezy
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 11 Oct 2014 14:10:35 +0000
 
 toxic (0.5.2+20141009.r1372-1) unstable; urgency=medium
 

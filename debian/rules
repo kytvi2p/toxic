@@ -15,3 +15,6 @@ override_dh_auto_clean:
 
 override_dh_auto_install:
 	$(MAKE) -C build install PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
+
+override_dh_strip:
+	dh_strip --dbg-package=toxic-dbg

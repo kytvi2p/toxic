@@ -1,3 +1,9 @@
+toxic (0.5.2+20141009.r1372-2) UNRELEASED; urgency=medium
+
+  * Also create toxic-dbg packages
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 12 Oct 2014 02:21:46 +0000
+
 toxic (0.5.2+20141009.r1372-1) unstable; urgency=medium
 
   [ Jfreegman ]

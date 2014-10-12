@@ -23,3 +23,17 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Reference CLI for Tox
  Toxic is a Tox-based instant messenging client which formerly resided in the
  Tox core repository, and is now available as a standalone application.
+
+Package: toxic-dbg
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ toxic (= ${binary:Version}),
+ libtoxdns-dbg,
+ libtoxencryptsave-dbg,
+ libtoxcore-dbg,
+ libtoxav-dbg
+Description: Reference CLI for Tox - debugging symbols
+ Toxic is a Tox-based instant messenging client which formerly resided in the
+ Tox core repository, and is now available as a standalone application.
+ .
+ This package contains the symbols needed for debugging toxic.

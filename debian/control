@@ -25,6 +25,8 @@ Description: Reference CLI for Tox
  Tox core repository, and is now available as a standalone application.
 
 Package: toxic-dbg
+Priority: extra
+Section: debug
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  toxic (= ${binary:Version}),

@@ -1,0 +1,21 @@
+From: Kill Your TV <killyourtv@i2pmail.org>
+Date: Tue, 7 Oct 2014 14:13:54 +0000
+Subject: set version
+
+Later will do this automatically using the version in debian changelog. But for now...
+
+---
+ cfg/global_vars.mk | 2 +-
+ cfg/targets/doc.mk | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+--- a/cfg/global_vars.mk
++++ b/cfg/global_vars.mk
+@@ -1,6 +1,6 @@
+ # Version
+ TOXIC_VERSION = 0.5.2
+-REV = $(shell git rev-list HEAD --count)
++REV = 1385
+ VERSION = $(TOXIC_VERSION)_r$(REV)
+ 
+ # Project directories

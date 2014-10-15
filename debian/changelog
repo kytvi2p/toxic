@@ -1,3 +1,9 @@
+toxic (0.5.2+20141015.r1388-2) unstable; urgency=medium
+
+  * minor fix (show version in interface)
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 15 Oct 2014 22:20:04 +0000
+
 toxic (0.5.2+20141015.r1388-1) unstable; urgency=medium
 
   [ Ansa89 ]

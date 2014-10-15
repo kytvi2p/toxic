@@ -1,3 +1,14 @@
+toxic (0.5.2+20141015.r1388-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Version: add revision only if git is available
+  * Install: check if manpages exist
+
+  [ Kill Your TV ]
+  * New upstream git snapshot (no functionality changes)
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 15 Oct 2014 12:31:20 +0000
+
 toxic (0.5.2+20141013.r1385-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

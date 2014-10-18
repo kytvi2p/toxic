@@ -1,3 +1,9 @@
+toxic (0.5.2+20141018.r1391-1~precise+1) precise; urgency=medium
+
+  * Backport to Precise
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 18 Oct 2014 23:03:30 +0000
+
 toxic (0.5.2+20141018.r1391-1) unstable; urgency=medium
 
   [ Ansa89 ]

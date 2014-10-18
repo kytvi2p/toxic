@@ -1,3 +1,28 @@
+toxic (0.5.2+20141018.r1391-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Version: fix revision calculation
+
+  [ Jfreegman ]
+  * fix
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+  * Stop linking against libnotify-dev to fix toxic in konsole
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 18 Oct 2014 21:38:12 +0000
+
+toxic (0.5.2+20141015.r1388-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Version: add revision only if git is available
+  * Install: check if manpages exist
+
+  [ Kill Your TV ]
+  * New upstream git snapshot (no functionality changes)
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 15 Oct 2014 12:31:20 +0000
+
 toxic (0.5.2+20141013.r1385-1ubuntu1) trusty; urgency=medium
 
   * Build for Trusty

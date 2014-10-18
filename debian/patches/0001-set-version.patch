@@ -1,0 +1,18 @@
+From: Kill Your TV <killyourtv@i2pmail.org>
+Date: Wed, 15 Oct 2014 22:19:21 +0000
+Subject: set-version
+
+---
+ cfg/global_vars.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/cfg/global_vars.mk
++++ b/cfg/global_vars.mk
+@@ -1,6 +1,6 @@
+ # Version
+ TOXIC_VERSION = 0.5.2
+-REV = $(shell git rev-list HEAD --count 2>/dev/null || echo -n "error")
++REV = 1391
+ ifneq (, $(findstring error, $(REV)))
+ 	VERSION = $(TOXIC_VERSION)
+ else

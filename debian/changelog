@@ -1,3 +1,9 @@
+toxic (0.5.2+20141021.r1394-1~precise+1) precise; urgency=medium
+
+  * Backport to Precise
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 20 Oct 2014 23:01:39 +0000
+
 toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
 
   [ Ansa89 ]
@@ -7,12 +13,6 @@ toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 20 Oct 2014 21:39:36 +0000
-
-toxic (0.5.2+20141018.r1391-1~precise+1) precise; urgency=medium
-
-  * Backport to Precise
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 18 Oct 2014 23:03:30 +0000
 
 toxic (0.5.2+20141018.r1391-1) unstable; urgency=medium
 
@@ -38,12 +38,6 @@ toxic (0.5.2+20141015.r1388-1) unstable; urgency=medium
   * New upstream git snapshot (no functionality changes)
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 15 Oct 2014 12:31:20 +0000
-
-toxic (0.5.2+20141013.r1385-1~precise+1) precise; urgency=medium
-
-  * Backport to Precise
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 13 Oct 2014 11:21:03 +0000
 
 toxic (0.5.2+20141013.r1385-1) unstable; urgency=medium
 

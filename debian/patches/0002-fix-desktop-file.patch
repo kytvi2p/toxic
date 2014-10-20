@@ -1,0 +1,20 @@
+From: Kill Your TV <killyourtv@i2pmail.org>
+Date: Mon, 20 Oct 2014 21:38:57 +0000
+Subject: fix desktop file
+
+---
+ misc/toxic.desktop | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/misc/toxic.desktop b/misc/toxic.desktop
+index 22b181a..faff3cb 100644
+--- a/misc/toxic.desktop
++++ b/misc/toxic.desktop
+@@ -6,6 +6,6 @@ Comment=A CLI based Tox client
+ TryExec=toxic
+ Exec=toxic
+ Icon=utilities-terminal
+-Categories=InstantMessaging;AudioVideo;Network;
++Categories=InstantMessaging;Telephony;VideoConference;Network;
+ Terminal=true
+ MimeType=x-scheme-handler/tox;

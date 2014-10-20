@@ -1,3 +1,13 @@
+toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Fix sound namefile
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 20 Oct 2014 21:39:36 +0000
+
 toxic (0.5.2+20141018.r1391-1) unstable; urgency=medium
 
   [ Ansa89 ]

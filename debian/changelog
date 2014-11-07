@@ -1,3 +1,18 @@
+toxic (0.5.2+20141105.r1401-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Makefile: add toxic.desktop to install target
+  * Makefile: revert back to mkdir
+  * Fix Tox/toxic#276
+
+  [ Jfreegman ]
+  * minor visual adjustment
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 07 Nov 2014 01:24:26 +0000
+
 toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
 
   [ Ansa89 ]

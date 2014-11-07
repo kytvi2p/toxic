@@ -1,3 +1,9 @@
+toxic (0.5.2+20141105.r1401-1ubuntu1) trusty; urgency=medium
+
+  * Building for Trusty
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 07 Nov 2014 19:16:44 +0000
+
 toxic (0.5.2+20141105.r1401-1) unstable; urgency=medium
 
   [ Ansa89 ]
@@ -12,12 +18,6 @@ toxic (0.5.2+20141105.r1401-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 07 Nov 2014 01:24:26 +0000
-
-toxic (0.5.2+20141021.r1394-1ubuntu1) trusty; urgency=medium
-
-  * Building for Trusty
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 20 Oct 2014 23:00:36 +0000
 
 toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
 

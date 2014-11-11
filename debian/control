@@ -8,8 +8,8 @@ Build-Depends: debhelper (>= 9),
  libncursesw5-dev,
 # libnotify-dev,
  libopenal-dev,
- libtoxav-dev (>= 0.0.0+20140928.1),
- libtoxcore-dev (>= 0.0.0+20140928.1),
+ libtoxav-dev (>= 0.0.0+20141111.r2929),
+ libtoxcore-dev (>= 0.0.0+20141111.r2929),
  libtoxdns-dev (>= 0.0.0+20140928.1),
  libtoxencryptsave-dev (>= 0.0.0+20140928.1)
 Standards-Version: 3.9.6

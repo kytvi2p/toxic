@@ -1,3 +1,9 @@
+toxic (0.5.2+20141111.r1402-1~precise+1) precise; urgency=medium
+
+  * Backport to Precise
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 11 Nov 2014 23:55:34 +0000
+
 toxic (0.5.2+20141111.r1402-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -22,12 +28,6 @@ toxic (0.5.2+20141105.r1401-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 07 Nov 2014 01:24:26 +0000
-
-toxic (0.5.2+20141021.r1394-1~precise+1) precise; urgency=medium
-
-  * Backport to Precise
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 20 Oct 2014 23:01:39 +0000
 
 toxic (0.5.2+20141021.r1394-1) unstable; urgency=medium
 

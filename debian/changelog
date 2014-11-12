@@ -1,3 +1,13 @@
+toxic (0.5.2+20141111.r1403-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * prep for audio groups
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 12 Nov 2014 02:28:45 +0000
+
 toxic (0.5.2+20141111.r1402-1) unstable; urgency=medium
 
   [ Jfreegman ]

@@ -54,8 +54,42 @@ static int max_groupchat_index = 0;
 extern struct user_settings *user_settings;
 extern struct Winthread Winthread;
 
-/* temporary until group chats have unique commands */
-extern const char glob_cmd_list[AC_NUM_GLOB_COMMANDS][MAX_CMDNAME_SIZE];
+#ifdef AUDIO
+#define AC_NUM_GROUP_COMMANDS 22
+#else
+#define AC_NUM_GROUP_COMMANDS 18
+#endif /* AUDIO */
+
+/* Array of groupchat command names used for tab completion. */
+static const char group_cmd_list[AC_NUM_GROUP_COMMANDS][MAX_CMDNAME_SIZE] = {
+    { "/accept"     },
+    { "/add"        },
+    { "/avatar"     },
+    { "/clear"      },
+    { "/close"      },
+    { "/connect"    },
+    { "/decline"    },
+    { "/exit"       },
+    { "/group"      },
+    { "/help"       },
+    { "/log"        },
+    { "/myid"       },
+    { "/nick"       },
+    { "/note"       },
+    { "/quit"       },
+    { "/requests"   },
+    { "/status"     },
+    { "/title"      },
+
+#ifdef AUDIO
+
+    { "/lsdev"       },
+    { "/sdev"        },
+    { "/mute"        },
+    { "/sense"       },
+
+#endif /* AUDIO */
+};
 
 int init_groupchat_win(ToxWindow *prompt, Tox *m, int groupnum, uint8_t type)
 {
@@ -241,6 +275,34 @@ static void groupchat_onGroupAction(ToxWindow *self, Tox *m, int groupnum, int p
     write_to_log(action, nick, ctx->log, true);
 }
 
+static void groupchat_onGroupTitleChange(ToxWindow *self, Tox *m, int groupnum, int peernum, const char *title,
+                                         uint8_t length)
+{
+    ChatContext *ctx = self->chatwin;
+
+    if (self->num != groupnum)
+        return;
+
+    set_window_title(self, title, length);
+
+    char timefrmt[TIME_STR_SIZE];
+    get_time_str(timefrmt, sizeof(timefrmt));
+
+    /* announce title when we join the room */
+    if (!timed_out(groupchats[self->num].start_time, get_unix_time(), GROUP_EVENT_WAIT)) {
+        line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, MAGENTA, "Title is set to: %s", title);
+        return;
+    }
+
+    char nick[TOX_MAX_NAME_LENGTH];
+    get_group_nick_truncate(m, nick, peernum, groupnum);
+    line_info_add(self, timefrmt, nick, NULL, NAME_CHANGE, 0, 0, " set the group title to: %s", title);
+
+    char tmp_event[MAX_STR_SIZE];
+    snprintf(tmp_event, sizeof(tmp_event), "set title to %s", title);
+    write_to_log(tmp_event, nick, ctx->log, true);
+}
+
 /* Puts two copies of peerlist/lengths in chat instance */
 static void copy_peernames(int gnum, uint8_t peerlist[][TOX_MAX_NAME_LENGTH], uint16_t lengths[], int npeers)
 {
@@ -292,8 +354,6 @@ struct group_add_thrd {
     pthread_t tid;
     pthread_attr_t attr;
 };
-
-#define GROUP_EVENT_WAIT 2
 
 /* Waits GROUP_EVENT_WAIT seconds for a new peer to set their name before announcing them */
 void *group_add_wait(void *data)
@@ -497,7 +557,7 @@ static void groupchat_onKey(ToxWindow *self, Tox *m, wint_t key, bool ltr)
             } else if (wcsncmp(ctx->line, L"/avatar \"", wcslen(L"/avatar \"")) == 0) {
                 diff = dir_match(self, m, ctx->line, L"/avatar");
             } else {
-                diff = complete_line(self, glob_cmd_list, AC_NUM_GLOB_COMMANDS, MAX_CMDNAME_SIZE);
+                diff = complete_line(self, group_cmd_list, AC_NUM_GROUP_COMMANDS, MAX_CMDNAME_SIZE);
             }
 
             if (diff != -1) {
@@ -645,6 +705,22 @@ static void groupchat_onInit(ToxWindow *self, Tox *m)
     wmove(self->window, y2 - CURS_Y_OFFSET, 0);
 }
 
+#ifdef AUDIO
+
+void groupchat_onWriteDevice(ToxWindow *self, Tox *m, int groupnum, int peernum, const int16_t *pcm, 
+                             unsigned int samples, uint8_t channels, unsigned int sample_rate)
+{
+    // if (groupnum != self->num)
+    //     return;
+
+    // if (peernum < 0 || channels == 0 || channels > 2)
+    //     return;
+
+    // uint32_t length = samples * channels * sizeof(int16_t);
+}
+
+#endif  /* AUDIO */
+
 ToxWindow new_group_chat(Tox *m, int groupnum)
 {
     ToxWindow ret;
@@ -659,6 +735,12 @@ ToxWindow new_group_chat(Tox *m, int groupnum)
     ret.onGroupMessage = &groupchat_onGroupMessage;
     ret.onGroupNamelistChange = &groupchat_onGroupNamelistChange;
     ret.onGroupAction = &groupchat_onGroupAction;
+    ret.onGroupTitleChange = &groupchat_onGroupTitleChange;
+
+#ifdef AUDIO
+    ret.onWriteDevice = &groupchat_onWriteDevice;
+    ret.device_selection[0] = ret.device_selection[1] = -1;
+#endif
 
     snprintf(ret.name, sizeof(ret.name), "Group %d", groupnum);
 

@@ -107,6 +107,7 @@ void on_groupmessage(Tox *m, int groupnumber, int peernumber, const uint8_t *mes
 void on_groupaction(Tox *m, int groupnumber, int peernumber, const uint8_t *action, uint16_t length, void *userdata);
 void on_groupinvite(Tox *m, int32_t friendnumber, uint8_t type, const uint8_t *group_pub_key, uint16_t length, void *userdata);
 void on_group_namelistchange(Tox *m, int groupnumber, int peernumber, uint8_t change, void *userdata);
+void on_group_titlechange(Tox *m, int groupnumber, int peernumber, const uint8_t *title, uint8_t length, void *userdata);
 void on_file_sendrequest(Tox *m, int32_t friendnumber, uint8_t filenumber, uint64_t filesize, const uint8_t *pathname,
                          uint16_t pathname_length, void *userdata);
 void on_file_control(Tox *m, int32_t friendnumber, uint8_t receive_send, uint8_t filenumber, uint8_t control_type,
@@ -114,5 +115,10 @@ void on_file_control(Tox *m, int32_t friendnumber, uint8_t receive_send, uint8_t
 void on_file_data(Tox *m, int32_t friendnumber, uint8_t filenumber, const uint8_t *data, uint16_t length, void *userdata);
 void on_typing_change(Tox *m, int32_t friendnumber, uint8_t is_typing, void *userdata);
 void on_read_receipt(Tox *m, int32_t, uint32_t, void *userdata);
+
+#ifdef AUDIO
+void on_write_device(Tox *m, int groupnum, int peernum, const int16_t *pcm, unsigned int samples,
+                             uint8_t channels, unsigned int sample_rate, void *userdata);
+#endif /* AUDIO */
 
 #endif  /* #define TOXIC_H */

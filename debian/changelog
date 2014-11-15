@@ -1,3 +1,15 @@
+toxic (0.5.2+20141115.r1406-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * more prep for audio groups
+  * implement group titles
+  * a couple formatting fixes
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 15 Nov 2014 13:59:11 +0000
+
 toxic (0.5.2+20141111.r1403-1ubuntu1) trusty; urgency=medium
 
   * Building for Trusty

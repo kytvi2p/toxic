@@ -29,6 +29,7 @@
 #include "execute.h"
 #include "chat_commands.h"
 #include "global_commands.h"
+#include "group_commands.h"
 #include "line_info.h"
 #include "misc_tools.h"
 #include "notify.h"
@@ -74,7 +75,16 @@ static struct cmd_func chat_commands[] = {
     { "/answer",    cmd_answer      },
     { "/reject",    cmd_reject      },
     { "/hangup",    cmd_hangup      },
-    { "/sdev",      cmd_ccur_device },
+    { "/mute",      cmd_mute        },
+    { "/sense",     cmd_sense       },
+#endif /* AUDIO */
+    { NULL,         NULL            },
+};
+
+static struct cmd_func group_commands[] = {
+    { "/title",     cmd_set_title   },
+
+#ifdef AUDIO
     { "/mute",      cmd_mute        },
     { "/sense",     cmd_sense       },
 #endif /* AUDIO */
@@ -165,6 +175,8 @@ void execute(WINDOW *w, ToxWindow *self, Tox *m, const char *input, int mode)
             break;
 
         case GROUPCHAT_COMMAND_MODE:
+            if (do_command(w, self, m, num_args, group_commands, args) == 0)
+                return;
             break;
     }
 

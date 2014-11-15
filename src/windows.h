@@ -37,7 +37,7 @@
 #include "toxic.h"
 
 #define MAX_WINDOWS_NUM 32
-#define MAX_WINDOW_NAME_LENGTH 16
+#define MAX_WINDOW_NAME_LENGTH 20
 #define CURS_Y_OFFSET 1    /* y-axis cursor offset for chat contexts */
 #define CHATBOX_HEIGHT 2
 
@@ -117,6 +117,7 @@ struct ToxWindow {
     void(*onGroupAction)(ToxWindow *, Tox *, int, int, const char *, uint16_t);
     void(*onGroupInvite)(ToxWindow *, Tox *, int32_t, uint8_t, const char *, uint16_t);
     void(*onGroupNamelistChange)(ToxWindow *, Tox *, int, int, uint8_t);
+    void(*onGroupTitleChange)(ToxWindow *, Tox *, int, int, const char *, uint8_t);
     void(*onFileSendRequest)(ToxWindow *, Tox *, int32_t, uint8_t, uint64_t, const char *, uint16_t);
     void(*onFileControl)(ToxWindow *, Tox *, int32_t, uint8_t, uint8_t, uint8_t, const char *, uint16_t);
     void(*onFileData)(ToxWindow *, Tox *, int32_t, uint8_t, const char *, uint16_t);
@@ -136,6 +137,7 @@ struct ToxWindow {
     void(*onEnd)(ToxWindow *, ToxAv *, int);
     void(*onRequestTimeout)(ToxWindow *, ToxAv *, int);
     void(*onPeerTimeout)(ToxWindow *, ToxAv *, int);
+    void(*onWriteDevice)(ToxWindow *, Tox *, int, int, const int16_t *, unsigned int, uint8_t, unsigned int);
 
     int call_idx; /* If in a call will have this index set, otherwise it's -1. 
                    * Don't modify outside av callbacks. */

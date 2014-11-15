@@ -1,4 +1,4 @@
-/*  audio_call.h
+/*  group_commands.h
  *
  *
  *  Copyright (C) 2014 Toxic All Rights Reserved.
@@ -20,24 +20,12 @@
  *
  */
 
-#ifndef AUDIO_H
-#define AUDIO_H
+#ifndef GROUP_COMMANDS_H
+#define GROUP_COMMANDS_H
 
-#include <tox/toxav.h>
+#include "windows.h"
+#include "toxic.h"
 
-#include "device.h"
+void cmd_set_title(WINDOW *window, ToxWindow *self, Tox *m, int argc, char (*argv)[MAX_STR_SIZE]);
 
-typedef enum _AudioError {
-    ae_None = 0,
-    ae_StartingCaptureDevice = 1 << 0,
-    ae_StartingOutputDevice = 1 << 1,
-    ae_StartingCoreAudio = 1 << 2
-} AudioError;
-
-/* You will have to pass pointer to first member of 'windows' declared in windows.c */
-ToxAv *init_audio(ToxWindow *self, Tox *tox);
-void terminate_audio();
-
-void stop_current_call(ToxWindow *self);
-
-#endif /* AUDIO_H */
+#endif  /* GROUP_COMMANDS_H */

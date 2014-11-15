@@ -209,6 +209,20 @@ void on_group_namelistchange(Tox *m, int groupnumber, int peernumber, uint8_t ch
     }
 }
 
+void on_group_titlechange(Tox *m, int groupnumber, int peernumber, const uint8_t *title, uint8_t length,
+                          void *userdata)
+{
+    char data[MAX_STR_SIZE + 1];
+    length = copy_tox_str(data, sizeof(data), (const char *) title, length);
+
+    int i;
+
+    for (i = 0; i < MAX_WINDOWS_NUM; ++i) {
+        if (windows[i].onGroupTitleChange != NULL)
+            windows[i].onGroupTitleChange(&windows[i], m, groupnumber, peernumber, data, length);
+    }
+}
+
 void on_file_sendrequest(Tox *m, int32_t friendnumber, uint8_t filenumber, uint64_t filesize,
                          const uint8_t *filename, uint16_t filename_length, void *userdata)
 {
@@ -253,6 +267,22 @@ void on_read_receipt(Tox *m, int32_t friendnumber, uint32_t receipt, void *userd
             windows[i].onReadReceipt(&windows[i], m, friendnumber, receipt);
     }
 }
+
+#ifdef AUDIO
+
+void on_write_device(Tox *m, int groupnum, int peernum, const int16_t *pcm, unsigned int samples,
+                     uint8_t channels, unsigned int sample_rate, void *userdata)
+{
+    int i;
+
+    for (i = 0; i < MAX_WINDOWS_NUM; ++i) {
+        if (windows[i].onWriteDevice != NULL)
+            windows[i].onWriteDevice(&windows[i], m, groupnum, peernum, pcm, samples, channels, samples);
+    }
+}
+
+#endif /* AUDIO */
+
 /* CALLBACKS END */
 
 int add_window(Tox *m, ToxWindow w)

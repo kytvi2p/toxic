@@ -6,6 +6,10 @@
 export USER_CFLAGS += $(shell dpkg-buildflags --get CFLAGS) -ggdb
 export USER_LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
 
+ifeq ($(shell dpkg-architecture -qDEB_BUILD_ARCH_OS),kfreebsd)
+export USER_LDFLAGS += -lresolv
+endif
+
 override_dh_auto_build:
 	$(MAKE) -C build PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
 

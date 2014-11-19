@@ -1,3 +1,13 @@
+toxic (0.5.2+20141115.r1409-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * handle errors for name functions
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 16 Nov 2014 11:40:38 +0000
+
 toxic (0.5.2+20141115.r1408-1~precise+1) precise; urgency=medium
 
   * Backport to Precise

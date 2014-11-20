@@ -1,3 +1,13 @@
+toxic (0.5.2+20141120.r1410-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * update DHTnodes
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 20 Nov 2014 13:43:30 +0000
+
 toxic (0.5.2+20141115.r1409-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy
@@ -23,7 +33,6 @@ toxic (0.5.2+20141115.r1408-1) unstable; urgency=medium
   [ Kill Your TV ]
   * Fix bulding in kfreebsd
   * New upstream git snapshot
-
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 15 Nov 2014 21:53:25 +0000
 

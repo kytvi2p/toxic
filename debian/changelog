@@ -1,3 +1,13 @@
+toxic (0.5.2+20141126.r1414-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * disable group audio callback until it works properly
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 23:44:30 +0000
+
 toxic (0.5.2+20141126.r1413-1) unstable; urgency=medium
 
   [ JFreegman ]

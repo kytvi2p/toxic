@@ -1,3 +1,9 @@
+toxic (0.5.2+20141126.r1411-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 13:21:54 +0000
+
 toxic (0.5.2+20141126.r1411-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -8,12 +14,6 @@ toxic (0.5.2+20141126.r1411-1) unstable; urgency=medium
   * New git upstream snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 13:11:53 +0000
-
-toxic (0.5.2+20141120.r1410-1~deb7u+1) stable; urgency=medium
-
-  * Backport to Wheezy
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 20 Nov 2014 13:59:22 +0000
 
 toxic (0.5.2+20141120.r1410-1) unstable; urgency=medium
 

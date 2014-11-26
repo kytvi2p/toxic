@@ -1,3 +1,14 @@
+toxic (0.5.2+20141126.r1413-2) unstable; urgency=medium
+
+  [ JFreegman ]
+  * only include audio_call.h if audio is defined
+  * group audio almost works
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 22:15:43 +0000
+
 toxic (0.5.2+20141126.r1411-1) unstable; urgency=medium
 
   [ Jfreegman ]

@@ -1,3 +1,9 @@
+toxic (0.5.2+20141126.r1414-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 23:46:19 +0000
+
 toxic (0.5.2+20141126.r1414-1) unstable; urgency=medium
 
   [ Jfreegman ]

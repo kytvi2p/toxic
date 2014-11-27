@@ -215,7 +215,7 @@ DeviceError open_device(DeviceType type, int32_t selection, uint32_t* device_idx
     const uint32_t frame_size = (sample_rate * frame_duration / 1000);
     
     uint32_t i;
-    for (i = 0; i < MAX_DEVICES && running[type][i] != NULL; i ++);
+    for (i = 0; i < MAX_DEVICES && running[type][i] != NULL; ++i);
     
     if (i == MAX_DEVICES) { unlock; return de_AllDevicesBusy; }
     else *device_idx = i;
@@ -351,17 +351,19 @@ DeviceError register_device_callback( int32_t call_idx, uint32_t device_idx, Dat
     return de_None;
 }
 
-inline__ DeviceError write_out(uint32_t device_idx, int16_t* data, uint32_t length, uint8_t channels)
+inline__ DeviceError write_out(uint32_t device_idx, const int16_t* data, uint32_t length, uint8_t channels)
 {
     if (device_idx >= MAX_DEVICES) return de_InvalidSelection;
     
     Device* device = running[output][device_idx];
-    
+    if (!device)
+        fprintf(stderr, "DEVICE IS NULL SILLY\n");
+
     if (!device || device->muted) return de_DeviceNotActive;
-    
+
     pthread_mutex_lock(device->mutex);
-    
-    
+
+
     ALuint bufid;
     ALint processed, queued;
     alGetSourcei(device->source, AL_BUFFERS_PROCESSED, &processed);
@@ -382,13 +384,13 @@ inline__ DeviceError write_out(uint32_t device_idx, int16_t* data, uint32_t leng
     
     alBufferData(bufid, device->sound_mode, data, length * 2 * channels, device->sample_rate);
     alSourceQueueBuffers(device->source, 1, &bufid);
-    
+
     ALint state;
     alGetSourcei(device->source, AL_SOURCE_STATE, &state);
-    
+
     if(state != AL_PLAYING) alSourcePlay(device->source);
-    
-    
+
+
     pthread_mutex_unlock(device->mutex);
     return de_None;
 }
@@ -408,7 +410,7 @@ void* thread_poll (void* arg) // TODO: maybe use thread for every input source
         if (thread_paused) usleep(10000); /* Wait for unpause. */
         else
         {
-            for (i = 0; i < size[input]; i ++) 
+            for (i = 0; i < size[input]; ++i) 
             {
                 lock;
                 if (running[input][i] != NULL) 
@@ -446,8 +448,9 @@ void* thread_poll (void* arg) // TODO: maybe use thread for every input source
 
 void print_devices(ToxWindow* self, DeviceType type)
 {
-    int i = 0;
-    for ( ; i < size[type]; i ++)
+    int i;
+
+    for (i = 0; i < size[type]; ++i)
         line_info_add(self, NULL, NULL, NULL, SYS_MSG, 0, 0, "%d: %s", i, devices_names[type][i]);
 
     return;

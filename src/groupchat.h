@@ -25,7 +25,10 @@
 
 #include "toxic.h"
 #include "windows.h"
+
+#ifdef AUDIO
 #include "audio_call.h"
+#endif
 
 #define SIDEBAR_WIDTH 16
 #define SDBAR_OFST 2    /* Offset for the peer number box at the top of the statusbar */
@@ -47,6 +50,10 @@ typedef struct {
     uint8_t  *oldpeer_names;
     uint16_t *peer_name_lengths;
     uint16_t *oldpeer_name_lengths;
+
+#ifdef AUDIO
+    Call call;
+#endif
 } GroupChat;
 
 void kill_groupchat_window(ToxWindow *self);

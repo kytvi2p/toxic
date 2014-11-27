@@ -1,3 +1,45 @@
+toxic (0.5.2+20141126.r1414-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * disable group audio callback until it works properly
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 23:44:30 +0000
+
+toxic (0.5.2+20141126.r1413-1) unstable; urgency=medium
+
+  [ JFreegman ]
+  * only include audio_call.h if audio is defined
+  * group audio almost works
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 22:15:43 +0000
+
+toxic (0.5.2+20141126.r1411-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * update for core audio refactor
+
+  [ Kill Your TV ]
+  * Bump dependency on libtoxcoreav-dev
+  * New git upstream snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 26 Nov 2014 13:11:53 +0000
+
+toxic (0.5.2+20141120.r1410-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * update DHTnodes
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 20 Nov 2014 13:43:30 +0000
+
 toxic (0.5.2+20141115.r1409-1~precise+1) precise; urgency=medium
 
   * Backport to Precise
@@ -23,7 +65,6 @@ toxic (0.5.2+20141115.r1408-1) unstable; urgency=medium
   [ Kill Your TV ]
   * Fix bulding in kfreebsd
   * New upstream git snapshot
-
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 15 Nov 2014 21:53:25 +0000
 

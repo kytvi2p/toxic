@@ -1,3 +1,20 @@
+toxic (0.5.2+20141129.r1419-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * put toxav loop in separate thread
+  * forgot something
+
+  [ A. L'mao ]
+  * Destroy AL context before closing dhndl
+
+  [ Jfreegman ]
+  * more group stuff
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 29 Nov 2014 18:09:33 +0000
+
 toxic (0.5.2+20141126.r1414-1) unstable; urgency=medium
 
   [ Jfreegman ]

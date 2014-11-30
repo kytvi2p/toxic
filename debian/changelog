@@ -1,3 +1,9 @@
+toxic (0.5.2+20141130.r1421-1ubuntu1) utopic; urgency=medium
+
+  * Building for Utopic
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 30 Nov 2014 19:39:48 +0000
+
 toxic (0.5.2+20141130.r1421-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -34,12 +40,6 @@ toxic (0.5.2+20141129.r1419-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 29 Nov 2014 18:09:33 +0000
-
-toxic (0.5.2+20141126.r1414-1ubuntu1) utopic; urgency=medium
-
-  * Building for Utopic
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 27 Nov 2014 02:42:24 +0000
 
 toxic (0.5.2+20141126.r1414-1) unstable; urgency=medium
 

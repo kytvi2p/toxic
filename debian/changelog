@@ -1,3 +1,13 @@
+toxic (0.5.2+20141130.r1421-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * remove spammy connection messages
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 30 Nov 2014 19:16:13 +0000
+
 toxic (0.5.2+20141130.r1420-1) unstable; urgency=medium
 
   [ Jfreegman ]

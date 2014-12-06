@@ -38,6 +38,8 @@ uint8_t max_file_senders_index;
 uint8_t num_active_file_senders;
 extern FriendsList Friends;
 
+#define NUM_PROG_MARKS 50    /* number of "#"'s in file transfer progress bar. Keep well below MAX_STR_SIZE */
+
 /* creates initial progress line that will be updated during file transfer.
    Assumes progline is of size MAX_STR_SIZE */
 void prep_prog_line(char *progline)
@@ -266,7 +268,8 @@ void do_file_senders(Tox *m)
         }
 
         /* If file transfer has timed out kill transfer and send kill control */
-        if (timed_out(file_senders[i].timestamp, get_unix_time(), TIMEOUT_FILESENDER)) {
+        if (timed_out(file_senders[i].timestamp, get_unix_time(), TIMEOUT_FILESENDER)
+            && (!file_senders[i].paused || (file_senders[i].paused && file_senders[i].noconnection))) {
             char msg[MAX_STR_SIZE];
             snprintf(msg, sizeof(msg), "File transfer for '%s' timed out.", filename);
             close_file_sender(self, m, i, msg, TOX_FILECONTROL_KILL, filenum, friendnum);
@@ -279,7 +282,7 @@ void do_file_senders(Tox *m)
             continue;
         }
 
-        if (!file_senders[i].noconnection && !file_senders[i].finished)
+        if ( !(file_senders[i].paused | file_senders[i].noconnection | file_senders[i].finished) )
             send_file_data(self, m, i, friendnum, filenum, filename);
 
         file_senders[i].queue_pos = num_active_file_senders - 1;

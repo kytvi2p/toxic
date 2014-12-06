@@ -473,8 +473,10 @@ static void groupchat_onGroupNamelistChange(ToxWindow *self, Tox *m, int groupnu
 
     switch (change) {
         case TOX_CHAT_CHANGE_PEER_ADD:
+#ifdef AUDIO
             if (groupchats[groupnum].type == TOX_GROUPCHAT_TYPE_AV)
                 group_audio_add_source(groupnum, peernum);
+#endif
 
             if (!timed_out(groupchats[groupnum].start_time, get_unix_time(), GROUP_EVENT_WAIT))
                 break;
@@ -506,8 +508,10 @@ static void groupchat_onGroupNamelistChange(ToxWindow *self, Tox *m, int groupnu
             break;
 
         case TOX_CHAT_CHANGE_PEER_DEL:
+#ifdef AUDIO
             if (groupchats[groupnum].type == TOX_GROUPCHAT_TYPE_AV)
                 group_audio_rm_source(groupnum, peernum);
+#endif
 
             event = "has left the room";
             line_info_add(self, timefrmt, (char *) oldpeername, NULL, CONNECTION, 0, RED, event);
@@ -813,10 +817,8 @@ static int group_audio_write(int peernum, int groupnum, const int16_t *pcm, unsi
 }
 
 static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, int groupnum, int peernum, const int16_t *pcm, 
-                             unsigned int samples, uint8_t channels, unsigned int sample_rate)
+                                    unsigned int samples, uint8_t channels, unsigned int sample_rate)
 {
-    return;  /* TODO: fix this stuff */
-
     if (groupnum != self->num)
         return;
 

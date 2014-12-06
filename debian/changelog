@@ -1,3 +1,26 @@
+toxic (0.5.2+20141205.r1427-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * ensure messages in queue are always delivered in order
+  * properly handle file pausing
+  * correct value
+  * update DHTnodes, fix comment
+
+  [ Kill Your TV ]
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 06 Dec 2014 15:34:48 +0000
+
+toxic (0.5.2+20141203.r1422-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * fix file statusbar draw bug
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+  * Bump dep on libtoxav-dev missed in the last upload
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 04 Dec 2014 02:51:04 +0000
+
 toxic (0.5.2+20141130.r1421-1~precise+1) precise; urgency=medium
 
   * Backport to Precise

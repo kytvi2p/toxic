@@ -1,3 +1,9 @@
+toxic (0.5.2+20141205.r1427-1ubuntu1) utopic; urgency=medium
+
+  * Building for Utopic
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 06 Dec 2014 15:48:02 +0000
+
 toxic (0.5.2+20141205.r1427-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -20,12 +26,6 @@ toxic (0.5.2+20141203.r1422-1) unstable; urgency=medium
   * Bump dep on libtoxav-dev missed in the last upload
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 04 Dec 2014 02:51:04 +0000
-
-toxic (0.5.2+20141130.r1421-1ubuntu1) utopic; urgency=medium
-
-  * Building for Utopic
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 30 Nov 2014 19:39:48 +0000
 
 toxic (0.5.2+20141130.r1421-1) unstable; urgency=medium
 

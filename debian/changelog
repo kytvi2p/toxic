@@ -1,3 +1,14 @@
+toxic (0.5.2+20141206.r1429-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * fix possible crash
+  * fix building without audio
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 06 Dec 2014 19:26:48 +0000
+
 toxic (0.5.2+20141205.r1427-1) unstable; urgency=medium
 
   [ Jfreegman ]

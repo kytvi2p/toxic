@@ -158,7 +158,7 @@ int init_groupchat_win(ToxWindow *prompt, Tox *m, int groupnum, uint8_t type)
     return -1;
 }
 
-void kill_groupchat_window(ToxWindow *self)
+static void kill_groupchat_window(ToxWindow *self)
 {
     ChatContext *ctx = self->chatwin;
 
@@ -173,7 +173,7 @@ void kill_groupchat_window(ToxWindow *self)
     del_window(self);
 }
 
-static void close_groupchat(ToxWindow *self, Tox *m, int groupnum)
+void close_groupchat(ToxWindow *self, Tox *m, int groupnum)
 {
     tox_del_groupchat(m, groupnum);
     group_audio_close_out_device(groupnum);
@@ -757,7 +757,7 @@ static int group_audio_open_out_device(int groupnum)
 {
     char dname[MAX_STR_SIZE];
     get_primary_device_name(output, dname, sizeof(dname));
-    dname[MAX_STR_SIZE] = '\0';
+    dname[MAX_STR_SIZE - 1] = '\0';
 
     groupchats[groupnum].audio.dvhandle = alcOpenDevice(dname);
 

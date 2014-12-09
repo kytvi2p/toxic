@@ -1,3 +1,14 @@
+toxic (0.5.2+20141207.r1434-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * properly close all groupchats on exit
+  * small fix
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 09 Dec 2014 12:03:08 +0000
+
 toxic (0.5.2+20141207.r1432-1) unstable; urgency=medium
 
   [ Jfreegman ]

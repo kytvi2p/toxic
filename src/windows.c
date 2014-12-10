@@ -54,8 +54,9 @@ void on_request(Tox *m, const uint8_t *public_key, const uint8_t *data, uint16_t
     int i;
 
     for (i = 0; i < MAX_WINDOWS_NUM; ++i) {
-        if (windows[i].onFriendRequest != NULL)
+        if (windows[i].onFriendRequest != NULL) {
             windows[i].onFriendRequest(&windows[i], m, (const char *) public_key, msg, length);
+        }
     }
 }
 
@@ -267,6 +268,19 @@ void on_read_receipt(Tox *m, int32_t friendnumber, uint32_t receipt, void *userd
             windows[i].onReadReceipt(&windows[i], m, friendnumber, receipt);
     }
 }
+
+#ifdef AUDIO
+void write_device_callback_group(Tox *m, int groupnum, int peernum, const int16_t *pcm, unsigned int samples,
+                                 uint8_t channels, unsigned int sample_rate, void *arg)
+{
+    int i;
+
+    for (i = 0; i < MAX_WINDOWS_NUM; ++i) {
+        if (windows[i].onWriteDevice != NULL)
+            windows[i].onWriteDevice(&windows[i], m, groupnum, peernum, pcm, samples, channels, samples);
+    }
+}
+#endif  /* AUDIO */
 
 /* CALLBACKS END */
 
@@ -561,7 +575,7 @@ void kill_all_windows(Tox *m)
         if (windows[i].is_chat)
             kill_chat_window(&windows[i], m);
         else if (windows[i].is_groupchat)
-            kill_groupchat_window(&windows[i]);
+            close_groupchat(&windows[i], m, i);
     }
 
     kill_prompt_window(prompt);

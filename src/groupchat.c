@@ -175,7 +175,9 @@ static void kill_groupchat_window(ToxWindow *self)
 void close_groupchat(ToxWindow *self, Tox *m, int groupnum)
 {
     tox_del_groupchat(m, groupnum);
+#ifdef AUDIO
     group_audio_close_out_device(groupnum);
+#endif
 
     free(groupchats[groupnum].peer_names);
     free(groupchats[groupnum].oldpeer_names);
@@ -798,7 +800,6 @@ static int group_audio_write(int peernum, int groupnum, const int16_t *pcm, unsi
 
     alGetSourcei(groupchats[groupnum].audio.source, AL_BUFFERS_PROCESSED, &processed);
     alGetSourcei(groupchats[groupnum].audio.source, AL_BUFFERS_QUEUED, &queued);
-    alSourcei(groupchats[groupnum].audio.source, AL_LOOPING, AL_FALSE);
     fprintf(stderr, "source: %d, queued: %d, processed: %d\n", groupchats[groupnum].audio.source, queued, processed);
 
     if (processed) {
@@ -829,6 +830,8 @@ static int group_audio_write(int peernum, int groupnum, const int16_t *pcm, unsi
 static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, int groupnum, int peernum, const int16_t *pcm, 
                                     unsigned int samples, uint8_t channels, unsigned int sample_rate)
 {
+    return;
+
     if (groupnum != self->num)
         return;
 

@@ -1,3 +1,14 @@
+toxic (0.5.2+20141209.r1438-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * forgot IFDEFs
+  * disable broken callback
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 10 Dec 2014 20:53:36 +0000
+
 toxic (0.5.2+20141209.r1436-1ubuntu1) utopic; urgency=medium
 
   * Building for Utopic

@@ -1,3 +1,13 @@
+toxic (0.5.2+20150101.r1444-1) unstable; urgency=medium
+
+  [ Anthony Parsons ]
+  * Make "Last seen" handle year rollover correctly
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 01 Jan 2015 13:22:21 +0000
+
 toxic (0.5.2+20141227.r1442-1ubuntu1) utopic; urgency=medium
 
   * Building for Utopic

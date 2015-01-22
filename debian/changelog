@@ -1,3 +1,9 @@
+toxic (0.5.2+20150111.r1450-1ubuntu1) utopic; urgency=medium
+
+  * Building for Utopic
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 22 Jan 2015 00:21:55 +0000
+
 toxic (0.5.2+20150111.r1450-1) unstable; urgency=medium
 
   [ urras ]
@@ -13,12 +19,6 @@ toxic (0.5.2+20150111.r1450-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 15 Jan 2015 19:13:48 +0000
-
-toxic (0.5.2+20150101.r1445-1ubuntu1) utopic; urgency=medium
-
-  * Building for Utopic
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 04 Jan 2015 01:25:28 +0000
 
 toxic (0.5.2+20150101.r1445-1) unstable; urgency=medium
 

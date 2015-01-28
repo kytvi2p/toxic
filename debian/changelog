@@ -1,3 +1,16 @@
+toxic (0.5.2+20150125.r1455-1) unstable; urgency=medium
+
+  [ dantok ]
+  * Fixed emptying avatar_path if the path is too long.
+  * Fix an edge case when obtaining home directory.
+  * Update autocomplete.c
+  * Update configdir.c
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 28 Jan 2015 00:50:59 +0000
+
 toxic (0.5.2+20150111.r1450-1~trusty1) trusty; urgency=medium
 
   * Building for Trusty

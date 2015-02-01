@@ -1,3 +1,12 @@
+toxic (0.5.2+20150201.r1457-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Update for toxcore API break
+
+  [ Kill Your TV ]
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 01 Feb 2015 23:58:26 +0000
+
 toxic (0.5.2+20150125.r1455-1) unstable; urgency=medium
 
   [ dantok ]

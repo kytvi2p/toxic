@@ -1,3 +1,30 @@
+toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
+
+  [ Spagy ]
+  * Correct filename comment from main.c to toxic.c
+
+  [ Loui Chang ]
+  * Fix whitespace
+
+  [ Urras ]
+  * Travis should build with Libsodium stable
+  * Fix Clang
+
+  [ Ansa89 ]
+  * travis.yml: use latest libsodium stable
+
+  [ JFreegman ]
+  * Update README.md
+
+  [ Loui Chang ]
+  * Make little action indicators on each output line configurable.
+  * Add support for custom timestamps in chat and logs.
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 24 Feb 2015 21:23:52 +0000
+
 toxic (0.5.2+20150201.r1457-1) unstable; urgency=medium
 
   [ Ansa89 ]

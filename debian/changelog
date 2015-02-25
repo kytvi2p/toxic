@@ -1,3 +1,9 @@
+toxic (0.5.2+20150223.r1477-1~precise+1) precise; urgency=medium
+
+  * Backport to Precise
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 25 Feb 2015 21:20:37 +0000
+
 toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
 
   [ Spagy ]
@@ -25,18 +31,13 @@ toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 24 Feb 2015 21:23:52 +0000
 
-toxic (0.5.2+20150201.r1457-1~precise+1) precise; urgency=medium
-
-  * Backport to Precise
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 02 Feb 2015 02:39:06 +0000
-
 toxic (0.5.2+20150201.r1457-1) unstable; urgency=medium
 
   [ Ansa89 ]
   * Update for toxcore API break
 
   [ Kill Your TV ]
+  * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 01 Feb 2015 23:58:26 +0000
 

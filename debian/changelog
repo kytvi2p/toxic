@@ -1,3 +1,9 @@
+toxic (0.5.2+20150223.r1477-1~trusty+1) trusty; urgency=medium
+
+  * Building for Trusty
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 25 Feb 2015 21:19:54 +0000
+
 toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
 
   [ Spagy ]

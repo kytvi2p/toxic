@@ -1,3 +1,9 @@
+toxic (0.5.2+20150226.r1478-1~trusty+1) trusty; urgency=medium
+
+  * Building for Trusty
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:54:57 +0000
+
 toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
 
   [ fr33domlover ]
@@ -7,12 +13,6 @@ toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:14:01 +0000
-
-toxic (0.5.2+20150223.r1477-1~trusty+1) trusty; urgency=medium
-
-  * Building for Trusty
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 25 Feb 2015 21:19:54 +0000
 
 toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
 
@@ -40,12 +40,6 @@ toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 24 Feb 2015 21:23:52 +0000
-
-toxic (0.5.2+20150201.r1457-1~trusty+1) trusty; urgency=medium
-
-  * Building for Trusty
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 02 Feb 2015 02:38:24 +0000
 
 toxic (0.5.2+20150201.r1457-1) unstable; urgency=medium
 

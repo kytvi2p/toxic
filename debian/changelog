@@ -1,3 +1,13 @@
+toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
+
+  [ fr33domlover ]
+  * Add support for auto-away based on screen attach/detach
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:14:01 +0000
+
 toxic (0.5.2+20150223.r1477-1~trusty+1) trusty; urgency=medium
 
   * Building for Trusty
@@ -43,6 +53,7 @@ toxic (0.5.2+20150201.r1457-1) unstable; urgency=medium
   * Update for toxcore API break
 
   [ Kill Your TV ]
+  * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 01 Feb 2015 23:58:26 +0000
 

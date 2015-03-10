@@ -1,3 +1,9 @@
+toxic (0.5.2+20150226.r1478-1~utopic+1) utopic; urgency=medium
+
+  * Upload to PPA
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:54:08 +0000
+
 toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
 
   [ fr33domlover ]
@@ -7,12 +13,6 @@ toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:14:01 +0000
-
-toxic (0.5.2+20150223.r1477-1ubuntu1) utopic; urgency=medium
-
-  * Building for Utopic
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 25 Feb 2015 21:18:47 +0000
 
 toxic (0.5.2+20150223.r1477-1) unstable; urgency=medium
 

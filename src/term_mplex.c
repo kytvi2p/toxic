@@ -52,13 +52,6 @@ extern struct Winthread Winthread;
 #define PATH_SEP_S "/"
 #define PATH_SEP_C '/'
 
-<<<<<<< HEAD
-static char buffer [BUFFER_SIZE];
-static int mplex = 0;
-static TOX_USERSTATUS prev_status = TOX_USERSTATUS_NONE;
-static char prev_note [TOX_MAX_STATUSMESSAGE_LENGTH] = "";
-static Tox *tox = NULL;
-=======
 typedef enum
 {
     MPLEX_NONE,
@@ -97,7 +90,6 @@ void unlock_status ()
 {
     pthread_mutex_unlock (&status_lock);
 }
->>>>>>> master
 
 static char *read_into_dyn_buffer (FILE *stream)
 {
@@ -175,15 +167,6 @@ static int detect_gnu_screen ()
 
     free (dyn_buffer);
     dyn_buffer = NULL;
-<<<<<<< HEAD
-    strcpy (buffer, socket_path);
-    strcat (buffer, PATH_SEP_S);
-    strcat (buffer, socket_name);
-    free (socket_path);
-    socket_path = NULL;
-
-    mplex = 1;
-=======
     strcpy (mplex_data, socket_path);
     strcat (mplex_data, PATH_SEP_S);
     strcat (mplex_data, socket_name);
@@ -191,7 +174,6 @@ static int detect_gnu_screen ()
     socket_path = NULL;
 
     mplex = MPLEX_SCREEN;
->>>>>>> master
     return 1;
 
 nomplex:
@@ -204,40 +186,6 @@ nomplex:
 
 static int detect_tmux ()
 {
-<<<<<<< HEAD
-    char *tmux_env = getenv ("TMUX"), *socket_path, *pos;
-    if (!tmux_env)
-        goto finish;
-
-    /* make a clean copy for writing */
-    socket_path = (char*) malloc (strlen (tmux_env) + 1);
-    if (!socket_path)
-        goto finish;
-    strcpy (socket_path, tmux_env);
-
-    /* find second separator */
-    pos = strrchr (socket_path, ',');
-    if (!pos)
-        goto finish;
-
-    /* find first separator */
-    *pos = '\0';
-    pos = strrchr (socket_path, ',');
-    if (!pos)
-        goto finish;
-
-    /* write the socket path to buffer for later use */
-    *pos = '\0';
-    strcpy (buffer, socket_path);
-    free (socket_path);
-    mplex = 1;
-    return 1;
-
-finish:
-    if (socket_path)
-        free (socket_path);
-    return 0;
-=======
     char *tmux_env = getenv ("TMUX"), *pos;
     if (!tmux_env)
         return 0;
@@ -251,7 +199,6 @@ finish:
     strcpy (mplex_data, pos + 1);
     mplex = MPLEX_TMUX;
     return 1;
->>>>>>> master
 }
 
 /* Checks whether a terminal multiplexer (mplex) is present, and finds
@@ -268,8 +215,6 @@ static int detect_mplex ()
     return detect_gnu_screen () || detect_tmux ();
 }
 
-<<<<<<< HEAD
-=======
 /* Detects gnu screen session attached/detached by examining permissions of
    the session's unix socket.
  */
@@ -352,7 +297,6 @@ fail:
         free (search_str);
     return 0;
 }
->>>>>>> master
 
 /* Checks whether there is a terminal multiplexer present, but in detached
    state. Returns 1 if detached, 0 if attached or if there is no terminal
@@ -365,32 +309,6 @@ fail:
  */
 static int mplex_is_detached ()
 {
-<<<<<<< HEAD
-    if (!mplex)
-        return 0;
-
-    struct stat sb;
-    if (stat (buffer, &sb) != 0)
-        return 0;
-    /* execution permission (x) means attached */
-    return ! (sb.st_mode & S_IXUSR);
-}
-
-static void mplex_timer_handler (union sigval param)
-{
-    int detached;
-    TOX_USERSTATUS current_status, new_status;
-    const char *new_note;
-
-    if (!mplex)
-        return;
-
-    detached = mplex_is_detached ();
-    current_status = tox_get_self_user_status (tox);
-
-    if (current_status == TOX_USERSTATUS_AWAY && !detached)
-    {
-=======
     return gnu_screen_is_detached ()  ||  tmux_is_detached ();
 }
 
@@ -411,20 +329,10 @@ static void mplex_timer_handler (Tox *m)
     if (auto_away_active && current_status == TOX_USERSTATUS_AWAY && !detached)
     {
         auto_away_active = false;
->>>>>>> master
         new_status = prev_status;
         new_note = prev_note;
     }
     else
-<<<<<<< HEAD
-    if (current_status != TOX_USERSTATUS_AWAY && detached)
-    {
-        prev_status = current_status;
-        new_status = TOX_USERSTATUS_AWAY;
-        tox_get_self_status_message (tox,
-                                     (uint8_t*) prev_note,
-                                     sizeof (prev_note));
-=======
     if (current_status == TOX_USERSTATUS_NONE && detached)
     {
         auto_away_active = true;
@@ -433,7 +341,6 @@ static void mplex_timer_handler (Tox *m)
         pthread_mutex_lock (&Winthread.lock);
         tox_get_self_status_message (m, (uint8_t*) prev_note, sizeof (prev_note));
         pthread_mutex_unlock (&Winthread.lock);
->>>>>>> master
         new_note = user_settings->mplex_away_note;
     }
     else
@@ -447,37 +354,6 @@ static void mplex_timer_handler (Tox *m)
     strcpy (argv[2] + 1, new_note);
     strcat (argv[2], "\"");
     pthread_mutex_lock (&Winthread.lock);
-<<<<<<< HEAD
-    cmd_status (prompt->chatwin->history, prompt, tox, 2, argv);
-    pthread_mutex_unlock (&Winthread.lock);
-}
-
-void init_mplex_away_timer (Tox *m)
-{
-    struct sigevent sev;
-    timer_t timer_id;
-    struct itimerspec its;
-
-    if (! detect_mplex ())
-        return;
-
-    if (! user_settings->mplex_away)
-        return;
-
-    sev.sigev_notify = SIGEV_THREAD;
-    sev.sigev_notify_function = mplex_timer_handler;
-    sev.sigev_notify_attributes = NULL;
-
-    if (timer_create (CLOCK_REALTIME, &sev, &timer_id) == -1)
-        return;
-
-    its.it_interval.tv_sec = 5;
-    its.it_interval.tv_nsec = 0;
-    its.it_value = its.it_interval;
-
-    timer_settime (timer_id, 0, &its, NULL);
-    tox = m;
-=======
     cmd_status (prompt->chatwin->history, prompt, m, 2, argv);
     pthread_mutex_unlock (&Winthread.lock);
 }
@@ -511,5 +387,4 @@ int init_mplex_away_timer (Tox *m)
         return -1;
 
     return 0;
->>>>>>> master
 }

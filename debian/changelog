@@ -1,3 +1,18 @@
+toxic (0.5.2+20150313.r1480-1) unstable; urgency=medium
+
+  [ fr33domlover ]
+  * Add support for auto-away based on screen attach/detach
+
+  [ Jfreegman ]
+  * use pthread for mplex detach polling for better portability
+  * fix auto-away bugs Manually set aways no longer unaway when they
+    shouldn't, and busy status is no longer overridden
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 14 Mar 2015 02:14:37 +0000
+
 toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
 
   [ fr33domlover ]

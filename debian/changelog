@@ -1,3 +1,9 @@
+toxic (0.5.2+20150313.r1480-1ubuntu1) vivid; urgency=medium
+
+  * Building for Vivid
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 15 Mar 2015 20:28:55 +0000
+
 toxic (0.5.2+20150313.r1480-1) unstable; urgency=medium
 
   [ fr33domlover ]
@@ -12,12 +18,6 @@ toxic (0.5.2+20150313.r1480-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 14 Mar 2015 02:14:37 +0000
-
-toxic (0.5.2+20150226.r1478-1ubuntu1) vivid; urgency=medium
-
-  * Upload to PPA
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 10 Mar 2015 01:53:11 +0000
 
 toxic (0.5.2+20150226.r1478-1) unstable; urgency=medium
 

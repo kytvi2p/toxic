@@ -1,3 +1,23 @@
+toxic (0.5.2+20150318.r1490-1) unstable; urgency=medium
+
+  [ Henrique N. Lengler ]
+  * Add OpenBSD option to Makefile
+  * added gnumake as dep., because you can't compile with *BSDmake
+
+  [ Ansa89 ]
+  * Some cosmetics changes
+
+  [ jlo ]
+  * added tab autocomplete for "/status o" => "/status online"
+
+  [ Andrey Alekseenko ]
+  * Fixing couple leaking file descriptors
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 18 Mar 2015 20:37:31 +0000
+
 toxic (0.5.2+20150313.r1480-1) unstable; urgency=medium
 
   [ fr33domlover ]

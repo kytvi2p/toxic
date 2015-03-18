@@ -1,3 +1,9 @@
+toxic (0.5.2+20150318.r1490-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 18 Mar 2015 20:41:50 +0000
+
 toxic (0.5.2+20150318.r1490-1) unstable; urgency=medium
 
   [ Henrique N. Lengler ]
@@ -17,12 +23,6 @@ toxic (0.5.2+20150318.r1490-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 18 Mar 2015 20:37:31 +0000
-
-toxic (0.5.2+20150313.r1480-1~deb7u+1) stable; urgency=medium
-
-  * Backport to Wheezy
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 14 Mar 2015 03:24:38 +0000
 
 toxic (0.5.2+20150313.r1480-1) unstable; urgency=medium
 

@@ -1,5 +1,5 @@
 # Version
-TOXIC_VERSION = 0.5.2
+TOXIC_VERSION = 0.6.0
 REV = $(shell git rev-list HEAD --count 2>/dev/null || echo -n "error")
 ifneq (, $(findstring error, $(REV)))
     VERSION = $(TOXIC_VERSION)
@@ -8,6 +8,7 @@ else
 endif
 
 # Project directories
+BUILD_DIR = $(BASE_DIR)/build
 DOC_DIR = $(BASE_DIR)/doc
 SRC_DIR = $(BASE_DIR)/src
 SND_DIR = $(BASE_DIR)/sounds

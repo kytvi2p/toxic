@@ -11,14 +11,14 @@ export USER_LDFLAGS += -lresolv
 endif
 
 override_dh_auto_build:
-	$(MAKE) -C build PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
+	$(MAKE) PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic
 
 override_dh_auto_clean:
-	make -C build clean
+	make clean
 	dh_clean
 
 override_dh_auto_install:
-	$(MAKE) -C build install PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic DISABLE_X11=1
+	$(MAKE) install PREFIX=/usr DESTDIR=$(CURDIR)/debian/toxic DISABLE_X11=1
 
 override_dh_strip:
 	dh_strip --dbg-package=toxic-dbg

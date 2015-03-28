@@ -32,7 +32,7 @@
 #include "windows.h"
 #include "misc_tools.h"
 #include "settings.h"
-#include "file_senders.h"
+#include "file_transfers.h"
 
 extern ToxWindow *prompt;
 extern struct user_settings *user_settings;
@@ -199,9 +199,9 @@ int valid_nick(const char *nick)
 
     for (i = 0; nick[i]; ++i) {
         if ((nick[i] == ' ' && nick[i + 1] == ' ')
-            || nick[i] == '/' 
-            || nick[i] == '\n' 
-            || nick[i] == '\t' 
+            || nick[i] == '/'
+            || nick[i] == '\n'
+            || nick[i] == '\t'
             || nick[i] == '\v'
             || nick[i] == '\r')
 
@@ -212,9 +212,9 @@ int valid_nick(const char *nick)
 }
 
 /* Converts all newline/tab chars to spaces (use for strings that should be contained to a single line) */
-void filter_str(char *str, int len)
+void filter_str(char *str, size_t len)
 {
-    int i;
+    size_t i;
 
     for (i = 0; i < len; ++i) {
         if (str[i] == '\n' || str[i] == '\r' || str[i] == '\t' || str[i] == '\v')
@@ -263,13 +263,15 @@ void str_to_lower(char *str)
 /* puts friendnum's nick in buf, truncating at TOXIC_MAX_NAME_LENGTH if necessary.
    if toxcore API call fails, put UNKNOWN_NAME in buf
    Returns nick len */
-int get_nick_truncate(Tox *m, char *buf, int friendnum)
+size_t get_nick_truncate(Tox *m, char *buf, uint32_t friendnum)
 {
-    int len = tox_get_name(m, friendnum, (uint8_t *) buf);
+    size_t len = tox_friend_get_name_size(m, friendnum, NULL);
 
-    if (len == -1) {
+    if (len == 0) {
         strcpy(buf, UNKNOWN_NAME);
         len = strlen(UNKNOWN_NAME);
+    } else {
+        tox_friend_get_name(m, friendnum, (uint8_t *) buf, NULL);
     }
 
     len = MIN(len, TOXIC_MAX_NAME_LENGTH - 1);
@@ -296,9 +298,9 @@ int get_group_nick_truncate(Tox *m, char *buf, int peernum, int groupnum)
 
 /* copies data to msg buffer.
    returns length of msg, which will be no larger than size-1 */
-uint16_t copy_tox_str(char *msg, size_t size, const char *data, uint16_t length)
+size_t copy_tox_str(char *msg, size_t size, const char *data, size_t length)
 {
-    int len = MIN(length, size - 1);
+    size_t len = MIN(length, size - 1);
     memcpy(msg, data, len);
     msg[len] = '\0';
     return len;
@@ -361,18 +363,18 @@ bool file_exists(const char *path)
     return stat(path, &s) == 0;
 }
 
-/* returns file size or -1 on error */
+/* returns file size or 0 on error */
 off_t file_size(const char *path)
 {
     struct stat st;
 
     if (stat(path, &st) == -1)
-        return -1;
+        return 0;
 
     return st.st_size;
 }
 
-/* compares the first size bytes of fp to signature. 
+/* compares the first size bytes of fp to signature.
    Returns 0 if they are the same, 1 if they differ, and -1 on error.
 
    On success this function will seek back to the beginning of fp */

@@ -1,3 +1,41 @@
+toxic (0.6.0-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Move makefile into root directory
+  * Fix travis build
+  * Makefile: be less aggressive when cleaning
+  * README.md: fix typo
+
+  [ Jfreegman ]
+  * begin port to new API
+  * Mostly finished with new API port - File transfers currently don't support
+    pausing/resuming - Avatars are not yet done
+
+  [ Kill Your TV ]
+  * New upstream release
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 28 Mar 2015 12:54:20 +0000
+
+toxic (0.5.2+20150318.r1490-1) unstable; urgency=medium
+
+  [ Henrique N. Lengler ]
+  * Add OpenBSD option to Makefile
+  * added gnumake as dep., because you can't compile with *BSDmake
+
+  [ Ansa89 ]
+  * Some cosmetics changes
+
+  [ jlo ]
+  * added tab autocomplete for "/status o" => "/status online"
+
+  [ Andrey Alekseenko ]
+  * Fixing couple leaking file descriptors
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 18 Mar 2015 20:37:31 +0000
+
 toxic (0.5.2+20150313.r1480-1~precise+1) precise; urgency=medium
 
   * Backport to Precise

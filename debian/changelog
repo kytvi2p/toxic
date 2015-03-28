@@ -1,3 +1,9 @@
+toxic (0.6.0-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 28 Mar 2015 13:34:08 +0000
+
 toxic (0.6.0-1) unstable; urgency=medium
 
   [ Ansa89 ]
@@ -15,12 +21,6 @@ toxic (0.6.0-1) unstable; urgency=medium
   * New upstream release
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 28 Mar 2015 12:54:20 +0000
-
-toxic (0.5.2+20150318.r1490-1~deb7u+1) stable; urgency=medium
-
-  * Backport to Wheezy
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 18 Mar 2015 20:41:50 +0000
 
 toxic (0.5.2+20150318.r1490-1) unstable; urgency=medium
 

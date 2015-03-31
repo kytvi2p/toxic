@@ -1,3 +1,18 @@
+toxic (0.6.0+git20150329.r1504-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Refactor and clean up file transfers (No longer rely on undefined core
+    filenumber property for indexing)
+  * fix bootstrapping
+  * small fix
+  * a few small filetransfer fixes
+
+  [ Kill Your TV ]
+  * Explicitly build depend on a the newapi version of toxcore
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 31 Mar 2015 00:16:34 +0000
+
 toxic (0.6.0-1) unstable; urgency=medium
 
   [ Ansa89 ]

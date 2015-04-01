@@ -1,3 +1,14 @@
+toxic (0.6.0+git20150331.r1506-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * remove non-existant group commands
+  * fix bug where contacts would appear online twice in a row
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 01 Apr 2015 01:04:21 +0000
+
 toxic (0.6.0+git20150329.r1504-1) unstable; urgency=medium
 
   [ Jfreegman ]

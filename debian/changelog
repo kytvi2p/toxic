@@ -1,3 +1,39 @@
+toxic (0.6.0+git20150331.r1507-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * fix encryption API breakage
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Apr 2015 21:56:43 +0000
+
+toxic (0.6.0+git20150331.r1506-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * remove non-existant group commands
+  * fix bug where contacts would appear online twice in a row
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 01 Apr 2015 01:04:21 +0000
+
+toxic (0.6.0+git20150329.r1504-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Refactor and clean up file transfers (No longer rely on undefined core
+    filenumber property for indexing)
+  * fix bootstrapping
+  * small fix
+  * a few small filetransfer fixes
+
+  [ Kill Your TV ]
+  * Explicitly build depend on a the newapi version of toxcore
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 31 Mar 2015 00:16:34 +0000
+
 toxic (0.6.0-1~precise+1) precise; urgency=medium
 
   * Backport to Precise

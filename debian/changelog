@@ -1,3 +1,9 @@
+toxic (0.6.0+git20150331.r1507-1~deb7u+1) stable; urgency=medium
+
+  * Backport to Wheezy
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Apr 2015 22:41:42 +0000
+
 toxic (0.6.0+git20150331.r1507-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -7,12 +13,6 @@ toxic (0.6.0+git20150331.r1507-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Apr 2015 21:56:43 +0000
-
-toxic (0.6.0+git20150331.r1506-1~deb7u+1) stable; urgency=medium
-
-  * Backport to Wheezy
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 01 Apr 2015 01:29:00 +0000
 
 toxic (0.6.0+git20150331.r1506-1) unstable; urgency=medium
 

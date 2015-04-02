@@ -332,7 +332,7 @@ static void friendlist_onConnectionChange(ToxWindow *self, Tox *m, uint32_t num,
 
     if (connection_status == TOX_CONNECTION_NONE)
         --Friends.num_online;
-    else
+    else if (Friends.list[num].connection_status == TOX_CONNECTION_NONE)
         ++Friends.num_online;
 
     Friends.list[num].connection_status = connection_status;
@@ -460,7 +460,7 @@ static void friendlist_add_blocked(Tox *m, uint32_t fnum, uint32_t bnum)
     }
 }
 
-static void friendlist_onFileRecv(ToxWindow *self, Tox *m, uint32_t num, uint32_t filenum, uint32_t kind,
+static void friendlist_onFileRecv(ToxWindow *self, Tox *m, uint32_t num, uint32_t filenum,
                                   uint64_t file_size, const char *filename, size_t name_length)
 {
     if (num >= Friends.max_idx)

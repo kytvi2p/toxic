@@ -1,3 +1,9 @@
+toxic (0.6.0+git20150404.r1516-1ubuntu1) vivid; urgency=medium
+
+  * Building for Vivid
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 05 Apr 2015 16:25:16 +0000
+
 toxic (0.6.0+git20150404.r1516-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -9,12 +15,6 @@ toxic (0.6.0+git20150404.r1516-1) unstable; urgency=medium
   * New usptream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 05 Apr 2015 02:20:38 +0000
-
-toxic (0.6.0+git20150331.r1507-1ubuntu1) vivid; urgency=medium
-
-  * Building for Vivid
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Apr 2015 23:31:05 +0000
 
 toxic (0.6.0+git20150331.r1507-1) unstable; urgency=medium
 

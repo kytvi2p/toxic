@@ -44,8 +44,8 @@ script:
   - make -j2 || make || exit 1
 notifications:
   email: false
-
-  irc: 
+  
+  irc:
     channels:
       - "chat.freenode.net#tox-dev"
     on_success: always

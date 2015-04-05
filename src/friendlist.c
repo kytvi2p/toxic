@@ -38,6 +38,7 @@
 #include "notify.h"
 #include "help.h"
 #include "log.h"
+#include "avatars.h"
 
 #ifdef AUDIO
 #include "audio_call.h"
@@ -330,10 +331,14 @@ static void friendlist_onConnectionChange(ToxWindow *self, Tox *m, uint32_t num,
     if (num >= Friends.max_idx)
         return;
 
-    if (connection_status == TOX_CONNECTION_NONE)
+    if (connection_status == TOX_CONNECTION_NONE) {
         --Friends.num_online;
-    else if (Friends.list[num].connection_status == TOX_CONNECTION_NONE)
+    } else if (Friends.list[num].connection_status == TOX_CONNECTION_NONE) {
         ++Friends.num_online;
+
+        if (avatar_send(m, num) == -1)
+            fprintf(stderr, "avatar_send failed for friend %d\n", num);
+    }
 
     Friends.list[num].connection_status = connection_status;
     update_friend_last_online(num, get_unix_time());
@@ -403,13 +408,19 @@ void friendlist_onFriendAdded(ToxWindow *self, Tox *m, uint32_t num, bool sort)
         Friends.list[i].status = TOX_USER_STATUS_NONE;
         Friends.list[i].logging_on = (bool) user_settings->autolog == AUTOLOG_ON;
 
-        TOX_ERR_FRIEND_GET_PUBLIC_KEY err;
-        tox_friend_get_public_key(m, num, (uint8_t *) Friends.list[i].pub_key, &err);
+        TOX_ERR_FRIEND_GET_PUBLIC_KEY pkerr;
+        tox_friend_get_public_key(m, num, (uint8_t *) Friends.list[i].pub_key, &pkerr);
 
-        if (err != TOX_ERR_FRIEND_GET_PUBLIC_KEY_OK)
-            fprintf(stderr, "tox_friend_get_public_key failed (error %d)\n", err);
+        if (pkerr != TOX_ERR_FRIEND_GET_PUBLIC_KEY_OK)
+            fprintf(stderr, "tox_friend_get_public_key failed (error %d)\n", pkerr);
 
-        // update_friend_last_online(i, 0);
+        TOX_ERR_FRIEND_GET_LAST_ONLINE loerr;
+        uint64_t t = tox_friend_get_last_online(m, num, &loerr);
+
+        if (loerr != TOX_ERR_FRIEND_GET_LAST_ONLINE_OK)
+            t = 0;
+
+        update_friend_last_online(i, t);
 
         char tempname[TOX_MAX_NAME_LENGTH] = {0};
         get_nick_truncate(m, tempname, num);
@@ -873,8 +884,8 @@ static void friendlist_onDraw(ToxWindow *self, Tox *m)
         return;
     }
 
-   // uint64_t cur_time = get_unix_time();
-   // struct tm cur_loc_tm = *localtime((const time_t *) &cur_time);
+   uint64_t cur_time = get_unix_time();
+   struct tm cur_loc_tm = *localtime((const time_t *) &cur_time);
 
     wattron(self->window, A_BOLD);
     wprintw(self->window, " Online: ");
@@ -945,6 +956,7 @@ static void friendlist_onDraw(ToxWindow *self, Tox *m)
                     pthread_mutex_lock(&Winthread.lock);
                     tox_friend_get_status_message(m, Friends.list[f].num, (uint8_t *) statusmsg, NULL);
                     size_t s_len = tox_friend_get_status_message_size(m, Friends.list[f].num, NULL);
+                    statusmsg[s_len] = '\0';
                     pthread_mutex_unlock(&Winthread.lock);
 
                     filter_str(statusmsg, s_len);
@@ -962,7 +974,7 @@ static void friendlist_onDraw(ToxWindow *self, Tox *m)
                     Friends.list[f].statusmsg_len = maxlen;
                 }
 
-                if (Friends.list[f].statusmsg[0])
+                if (Friends.list[f].statusmsg_len > 0)
                     wprintw(self->window, " %s", Friends.list[f].statusmsg);
 
                 wprintw(self->window, "\n");
@@ -979,34 +991,31 @@ static void friendlist_onDraw(ToxWindow *self, Tox *m)
                 if (f_selected)
                     wattroff(self->window, COLOR_PAIR(BLUE));
 
-                wprintw(self->window, "\n");
-                /* Last online is currently broken in core */
+                uint64_t last_seen = Friends.list[f].last_online.last_on;
 
-                // uint64_t last_seen = Friends.list[f].last_online.last_on;
-                //
-                // if (last_seen != 0) {
-                //     int day_dist = (
-                //             cur_loc_tm.tm_yday - Friends.list[f].last_online.tm.tm_yday
-                //         + ((cur_loc_tm.tm_year - Friends.list[f].last_online.tm.tm_year) * 365)
-                //     );
-                //     const char *hourmin = Friends.list[f].last_online.hour_min_str;
+                if (last_seen != 0) {
+                    int day_dist = (
+                            cur_loc_tm.tm_yday - Friends.list[f].last_online.tm.tm_yday
+                        + ((cur_loc_tm.tm_year - Friends.list[f].last_online.tm.tm_year) * 365)
+                    );
+                    const char *hourmin = Friends.list[f].last_online.hour_min_str;
 
-                //     switch (day_dist) {
-                //         case 0:
-                //             wprintw(self->window, " Last seen: Today %s\n", hourmin);
-                //             break;
+                    switch (day_dist) {
+                        case 0:
+                            wprintw(self->window, " Last seen: Today %s\n", hourmin);
+                            break;
 
-                //         case 1:
-                //             wprintw(self->window, " Last seen: Yesterday %s\n", hourmin);
-                //             break;
+                        case 1:
+                            wprintw(self->window, " Last seen: Yesterday %s\n", hourmin);
+                            break;
 
-                //         default:
-                //             wprintw(self->window, " Last seen: %d days ago\n", day_dist);
-                //             break;
-                //     }
-                // } else {
-                //     wprintw(self->window, " Last seen: Never\n");
-                // }
+                        default:
+                            wprintw(self->window, " Last seen: %d days ago\n", day_dist);
+                            break;
+                    }
+                } else {
+                    wprintw(self->window, " Last seen: Never\n");
+                }
             }
         }
     }

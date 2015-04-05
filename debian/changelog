@@ -1,3 +1,15 @@
+toxic (0.6.0+git20150404.r1516-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * re-implement friendlist last seen
+  * re-implement avatar setting
+  * fix a few avatar bugs
+
+  [ Kill Your TV ]
+  * New usptream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 05 Apr 2015 02:20:38 +0000
+
 toxic (0.6.0+git20150331.r1507-1ubuntu1) vivid; urgency=medium
 
   * Building for Vivid

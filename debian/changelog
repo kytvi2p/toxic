@@ -1,3 +1,16 @@
+toxic (0.6.0+git20150409.r1518-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Makefile: try to fix Tox/toxic#307
+
+  [ Jfreegman ]
+  * fix possible segfault
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Apr 2015 09:12:57 +0000
+
 toxic (0.6.0+git20150404.r1516-1~utopic+1) utopic; urgency=medium
 
   * Building for Utopic
@@ -14,7 +27,7 @@ toxic (0.6.0+git20150404.r1516-1) unstable; urgency=medium
   [ Kill Your TV ]
   * New usptream git snapshot
 
- -- Kill Your TV <killyourtv@i2pmail.org>  Sun, 05 Apr 2015 02:20:38 +0000
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Apr 2015 09:12:36 +0000
 
 toxic (0.6.0+git20150331.r1507-1) unstable; urgency=medium
 

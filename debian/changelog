@@ -1,3 +1,15 @@
+toxic (0.6.0+git20150413.r1521-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * null terminate status message
+  * try to fall back to ipv4 if tox fails to init with ipv6
+  * not clear which error message is given for ipv6 failure
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 14 Apr 2015 09:37:45 +0000
+
 toxic (0.6.0+git20150409.r1518-1ubuntu1) vivid; urgency=medium
 
   * Building for Vivid

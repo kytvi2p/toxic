@@ -1,3 +1,9 @@
+toxic (0.6.0+git20150413.r1521-1~trusty+1) trusty; urgency=medium
+
+  * Building for Trusty
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 14 Apr 2015 20:03:06 +0000
+
 toxic (0.6.0+git20150413.r1521-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -9,12 +15,6 @@ toxic (0.6.0+git20150413.r1521-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Tue, 14 Apr 2015 09:37:45 +0000
-
-toxic (0.6.0+git20150409.r1518-1~trusty+1) trusty; urgency=medium
-
-  * Building for Trusty
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Apr 2015 16:29:56 +0000
 
 toxic (0.6.0+git20150409.r1518-1) unstable; urgency=medium
 

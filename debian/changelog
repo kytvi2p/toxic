@@ -1,3 +1,13 @@
+toxic (0.6.0+git20150414.r1522-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * correctly handle tox_new errors
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 15 Apr 2015 22:13:32 +0000
+
 toxic (0.6.0+git20150413.r1521-1) unstable; urgency=medium
 
   [ Jfreegman ]

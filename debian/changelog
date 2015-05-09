@@ -1,3 +1,9 @@
+toxic (0.6.0+git20150414.r1522-1~deb8u+rpi) stable; urgency=medium
+
+  * Backport to Jessie/rpi
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 09 May 2015 20:04:05 +0000
+
 toxic (0.6.0+git20150414.r1522-1) unstable; urgency=medium
 
   [ Jfreegman ]

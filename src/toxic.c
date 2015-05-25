@@ -305,14 +305,34 @@ static int load_nodelist(const char *filename)
     return 0;
 }
 
+/* Bootstraps and adds as TCP relay.
+ * Returns 0 if both actions are successful.
+ * Returns -1 otherwise.
+ */
 int init_connection_helper(Tox *m, int line)
 {
-    return tox_bootstrap(m, toxNodes.nodes[line], toxNodes.ports[line], (uint8_t *) toxNodes.keys[line], NULL);
+    TOX_ERR_BOOTSTRAP err;
+    tox_bootstrap(m, toxNodes.nodes[line], toxNodes.ports[line], (uint8_t *) toxNodes.keys[line], &err);
+
+    if (err != TOX_ERR_BOOTSTRAP_OK) {
+        fprintf(stderr, "Failed to bootstrap %s:%d\n", toxNodes.nodes[line], toxNodes.ports[line]);
+        return -1;
+    }
+
+    tox_add_tcp_relay(m, toxNodes.nodes[line], toxNodes.ports[line], (uint8_t *) toxNodes.keys[line], &err);
+
+    if (err != TOX_ERR_BOOTSTRAP_OK) {
+        fprintf(stderr, "Failed to add TCP relay %s:%d\n", toxNodes.nodes[line], toxNodes.ports[line]);
+        return -1;
+    }
+
+    return 0;
 }
 
 /* Connects to a random DHT node listed in the DHTnodes file
  *
  * return codes:
+ * 0: success
  * 1: failed to open node file
  * 2: no line of sufficient length in node file
  * 3: failed to resolve name to IP
@@ -324,8 +344,10 @@ static bool srvlist_loaded = false;
 
 int init_connection(Tox *m)
 {
-    if (toxNodes.lines > 0) /* already loaded nodelist */
-        return init_connection_helper(m, rand() % toxNodes.lines) ? 0 : 3;
+    if (toxNodes.lines > 0) { /* already loaded nodelist */
+        init_connection_helper(m, rand() % toxNodes.lines);
+        return 0;
+    }
 
     /* only once:
      * - load the nodelist
@@ -348,7 +370,7 @@ int init_connection(Tox *m)
         int n = MIN(NUM_INIT_NODES, toxNodes.lines);
 
         for (i = 0; i < n; ++i) {
-            if (init_connection_helper(m, rand() % toxNodes.lines))
+            if (init_connection_helper(m, rand() % toxNodes.lines) == 0)
                 res = 0;
         }
 
@@ -542,6 +564,8 @@ static void init_tox_callbacks(Tox *m)
 
 static void init_tox_options(struct Tox_Options *tox_opts)
 {
+    tox_options_default(tox_opts);
+
     tox_opts->ipv6_enabled = !arg_opts.use_ipv4;
     tox_opts->udp_enabled = !arg_opts.force_tcp;
     tox_opts->proxy_type = arg_opts.proxy_type;
@@ -638,7 +662,11 @@ static Tox *load_tox(char *data_path, struct Tox_Options *tox_opts, TOX_ERR_NEW 
                                  (uint8_t *) plain, &pwerr);
 
                 if (pwerr == TOX_ERR_DECRYPTION_OK) {
-                    m = tox_new(tox_opts, (uint8_t *) plain, plain_len, new_err);
+                    tox_opts->savedata_type = TOX_SAVEDATA_TYPE_TOX_SAVE;
+                    tox_opts->savedata_data = (uint8_t *) plain;
+                    tox_opts->savedata_length = plain_len;
+
+                    m = tox_new(tox_opts, new_err);
 
                     if (m == NULL) {
                         fclose(fp);
@@ -656,7 +684,11 @@ static Tox *load_tox(char *data_path, struct Tox_Options *tox_opts, TOX_ERR_NEW 
                 }
             }
         } else {   /* data is not encrypted */
-            m = tox_new(tox_opts, (uint8_t *) data, len, new_err);
+            tox_opts->savedata_type = TOX_SAVEDATA_TYPE_TOX_SAVE;
+            tox_opts->savedata_data = (uint8_t *) data;
+            tox_opts->savedata_length = len;
+
+            m = tox_new(tox_opts, new_err);
 
             if (m == NULL) {
                 fclose(fp);
@@ -669,7 +701,9 @@ static Tox *load_tox(char *data_path, struct Tox_Options *tox_opts, TOX_ERR_NEW 
         if (file_exists(data_path))
             exit_toxic_err("failed in load_toxic", FATALERR_FILEOP);
 
-        m = tox_new(tox_opts, NULL, 0, new_err);
+        tox_opts->savedata_type = TOX_SAVEDATA_TYPE_NONE;
+
+        m = tox_new(tox_opts, new_err);
 
         if (m == NULL)
             return NULL;
@@ -696,7 +730,7 @@ static Tox *load_toxic(char *data_path)
     }
 
     if (!m)
-        exit_toxic_err("tox_new returned fatal error %d", new_err);
+        exit_toxic_err("tox_new returned fatal error", new_err);
 
     if (new_err != TOX_ERR_NEW_OK)
         queue_init_message("tox_new returned non-fatal error %d", new_err);

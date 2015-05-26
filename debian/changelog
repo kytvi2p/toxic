@@ -1,3 +1,15 @@
+toxic (0.6.0+git20150524.r1525-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * default tox options on initialization
+  * toxcore API changes to tox_new
+  * separate bootstrapping and adding TCP relays per toxcore API changes
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 25 May 2015 22:46:35 +0000
+
 toxic (0.6.0+git20150414.r1522-1~deb7u+1) stable; urgency=medium
 
   * Backport to Wheezy

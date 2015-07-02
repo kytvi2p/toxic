@@ -25,6 +25,12 @@
 #include <pthread.h>
 #include <ctype.h>
 
+#ifdef NO_GETTEXT
+#define gettext(A) (A)
+#else
+#include <libintl.h>
+#endif
+
 #include "friendlist.h"
 #include "prompt.h"
 #include "toxic.h"
@@ -359,7 +365,7 @@ void set_next_window(int ch)
             return;
 
         if (active_window == inf)    /* infinite loop check */
-            exit_toxic_err("failed in set_next_window", FATALERR_INFLOOP);
+            exit_toxic_err(gettext("failed in set_next_window"), FATALERR_INFLOOP);
     }
 }
 
@@ -381,7 +387,7 @@ ToxWindow *init_windows(Tox *m)
     int n_prompt = add_window(m, new_prompt());
 
     if (n_prompt == -1 || add_window(m, new_friendlist()) == -1)
-        exit_toxic_err("failed in init_windows", FATALERR_WININIT);
+        exit_toxic_err(gettext("failed in init_windows"), FATALERR_WININIT);
 
     prompt = &windows[n_prompt];
     active_window = prompt;
@@ -555,8 +561,11 @@ void refresh_inactive_windows(void)
     for (i = 0; i < MAX_WINDOWS_NUM; ++i) {
         ToxWindow *a = &windows[i];
 
-        if (a->active && a != active_window && !a->is_friendlist)
+        if (a->active && a != active_window && !a->is_friendlist) {
+            pthread_mutex_lock(&Winthread.lock);
             line_info_print(a);
+            pthread_mutex_unlock(&Winthread.lock);
+        }
     }
 }
 

@@ -1,3 +1,13 @@
+toxic (0.6.0+git20150630.r1533-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Fix some possible race conditions related to line printing
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Jul 2015 21:51:09 +0000
+
 toxic (0.6.0+git20150629.r1532-1~deb8u+1) stable; urgency=medium
 
   * Backport to Jessie
@@ -8,8 +18,6 @@ toxic (0.6.0+git20150629.r1532-1) unstable; urgency=medium
 
   [ Ansa89 ]
   * Add localization system (gettext)
-  * Add localization system (gettext)
-  * travis.yml: update dependencies
 
   [ Jfreegman ]
   * s/tox.im/tox.chat/g -- reflect new tox domain

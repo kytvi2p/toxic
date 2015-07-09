@@ -1,3 +1,14 @@
+toxic (0.6.0+git20150708.r1537-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Add option to enable acting as TCP relay server
+  * Update dht nodes list and fix URL's
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Jul 2015 21:31:59 +0000
+
 toxic (0.6.0+git20150630.r1535-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -6,6 +17,7 @@ toxic (0.6.0+git20150630.r1535-1) unstable; urgency=medium
     with branch merging that need to be resolved first
 
   [ Kill Your TV ]
+  * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Jul 2015 11:15:00 +0000
 

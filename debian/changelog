@@ -1,3 +1,49 @@
+toxic (0.6.0+git20150708.r1537-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Add option to enable acting as TCP relay server
+  * Update dht nodes list and fix URL's
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 09 Jul 2015 21:31:59 +0000
+
+toxic (0.6.0+git20150630.r1535-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * update translations
+  * Revert commit 312d0c3 (localization/gettext) There were serious problems
+    with branch merging that need to be resolved first
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 08 Jul 2015 11:15:00 +0000
+
+toxic (0.6.0+git20150630.r1533-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Fix some possible race conditions related to line printing
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 02 Jul 2015 21:51:09 +0000
+
+toxic (0.6.0+git20150629.r1532-1) unstable; urgency=medium
+
+  [ Ansa89 ]
+  * Add localization system (gettext)
+
+  [ Jfreegman ]
+  * s/tox.im/tox.chat/g -- reflect new tox domain
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 29 Jun 2015 18:53:35 +0000
+
 toxic (0.6.0+git20150524.r1525-1~trusty+1) trusty; urgency=medium
 
   * Building for Trusty

@@ -755,9 +755,8 @@ static uint64_t last_bootstrap_time = 0;
 static void do_bootstrap(Tox *m)
 {
     static int conn_err = 0;
-    uint64_t curtime = get_unix_time();
 
-    if (!timed_out(last_bootstrap_time, curtime, TRY_BOOTSTRAP_INTERVAL))
+    if (!timed_out(last_bootstrap_time, TRY_BOOTSTRAP_INTERVAL))
         return;
 
     if (tox_self_get_connection_status(m) != TOX_CONNECTION_NONE)
@@ -766,7 +765,7 @@ static void do_bootstrap(Tox *m)
     if (conn_err != 0)
         return;
 
-    last_bootstrap_time = curtime;
+    last_bootstrap_time = get_unix_time();
     conn_err = init_connection(m);
 
     if (conn_err != 0)
@@ -781,6 +780,7 @@ static void do_toxic(Tox *m, ToxWindow *prompt)
     pthread_mutex_lock(&Winthread.lock);
     tox_iterate(m);
     do_bootstrap(m);
+    check_file_transfer_timeouts(m);
     pthread_mutex_unlock(&Winthread.lock);
 }
 
@@ -1048,7 +1048,7 @@ static int init_default_data_files(void)
 /* Adjusts usleep value so that tox_do runs close to the recommended number of times per second */
 static useconds_t optimal_msleepval(uint64_t *looptimer, uint64_t *loopcount, uint64_t cur_time, useconds_t msleepval)
 {
-    useconds_t new_sleep = msleepval;
+    useconds_t new_sleep = MAX(msleepval, 3);
     ++(*loopcount);
 
     if (*looptimer == cur_time)
@@ -1189,7 +1189,7 @@ int main(int argc, char *argv[])
         do_toxic(m, prompt);
         uint64_t cur_time = get_unix_time();
 
-        if (timed_out(last_save, cur_time, AUTOSAVE_FREQ)) {
+        if (timed_out(last_save, AUTOSAVE_FREQ)) {
             pthread_mutex_lock(&Winthread.lock);
             if (store_data(m, DATA_FILE) != 0)
                 line_info_add(prompt, NULL, NULL, NULL, SYS_MSG, 0, RED, "WARNING: Failed to save to data file");

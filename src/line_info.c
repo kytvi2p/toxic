@@ -322,13 +322,17 @@ void line_info_print(ToxWindow *self)
 
                 if (line->msg[0] == '>')
                     wattron(win, COLOR_PAIR(GREEN));
+                else if (line->msg[0] == '<')
+                    wattron(win, COLOR_PAIR(RED));
 
                 wprintw(win, "%s", line->msg);
 
                 if (line->msg[0] == '>')
                     wattroff(win, COLOR_PAIR(GREEN));
+                else if (line->msg[0] == '<')
+                    wattroff(win, COLOR_PAIR(RED));
 
-                if (type == OUT_MSG && timed_out(line->timestamp, get_unix_time(), NOREAD_FLAG_TIMEOUT)) {
+                if (type == OUT_MSG && timed_out(line->timestamp, NOREAD_FLAG_TIMEOUT)) {
                     wattron(win, COLOR_PAIR(RED));
                     wprintw(win, " x", line->msg);
                     wattroff(win, COLOR_PAIR(RED));
@@ -355,7 +359,7 @@ void line_info_print(ToxWindow *self)
                 wprintw(win, "%s %s %s", user_settings->line_normal, line->name1, line->msg);
                 wattroff(win, COLOR_PAIR(YELLOW));
 
-                if (type == OUT_ACTION && timed_out(line->timestamp, get_unix_time(), NOREAD_FLAG_TIMEOUT)) {
+                if (type == OUT_ACTION && timed_out(line->timestamp, NOREAD_FLAG_TIMEOUT)) {
                     wattron(win, COLOR_PAIR(RED));
                     wprintw(win, " x", line->msg);
                     wattroff(win, COLOR_PAIR(RED));

@@ -1,3 +1,16 @@
+toxic (0.6.1-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Lots of bug fixes and general code cleanup
+  * Fix a few notify/threading bugs and fix DHTnodes loading bug
+  * Fix more threading issues
+  * Fix nodes parsing bug
+
+  [ Kill Your TV ]
+  * New upstrem Version
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 04 Sep 2015 02:17:26 +0000
+
 toxic (0.6.0+git20150819.r1550-1+rpi1) stable; urgency=medium
 
   * Backport to Jessie/rpi

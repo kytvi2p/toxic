@@ -1,3 +1,15 @@
+toxic (0.6.1+git20150912.r1557-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Replace instances of unsafe atoi function with safe counterpart
+  * Replace toxme.se with toxme.io in DNSservers list and remove hardcoded
+    servers from source
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 14 Sep 2015 18:46:09 +0000
+
 toxic (0.6.1-1~deb8u+1) stable; urgency=medium
 
   * Backport to Jessie

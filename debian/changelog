@@ -1,3 +1,39 @@
+toxic (0.6.1+git20151020.r1559-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Use profile name that conforms with the standard
+  * Fix avatar size limit and fix comment
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Thu, 22 Oct 2015 21:17:00 +0000
+
+toxic (0.6.1+git20150912.r1557-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Replace instances of unsafe atoi function with safe counterpart
+  * Replace toxme.se with toxme.io in DNSservers list and remove hardcoded
+    servers from source
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 14 Sep 2015 18:46:09 +0000
+
+toxic (0.6.1-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Lots of bug fixes and general code cleanup
+  * Fix a few notify/threading bugs and fix DHTnodes loading bug
+  * Fix more threading issues
+  * Fix nodes parsing bug
+
+  [ Kill Your TV ]
+  * New upstrem Version
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 04 Sep 2015 02:17:26 +0000
+
 toxic (0.6.0+git20150819.r1550-1~trusty+1) trusty; urgency=medium
 
   * Backport to Trusty

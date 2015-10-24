@@ -77,6 +77,9 @@ char *DATA_FILE = NULL;
 char *BLOCK_FILE = NULL;
 ToxWindow *prompt = NULL;
 
+#define DATANAME  "toxic_profile.tox"
+#define BLOCKNAME "toxic_blocklist"
+
 #define AUTOSAVE_FREQ 60
 #define MIN_PASSWORD_LEN 6
 #define MAX_PASSWORD_LEN 64
@@ -119,6 +122,24 @@ static void init_signal_catchers(void)
     signal(SIGSEGV, catch_SIGSEGV);
 }
 
+void free_global_data(void)
+{
+    if (DATA_FILE) {
+        free(DATA_FILE);
+        DATA_FILE = NULL;
+    }
+
+    if (BLOCK_FILE) {
+        free(BLOCK_FILE);
+        BLOCK_FILE = NULL;
+    }
+
+    if (user_settings) {
+        free(user_settings);
+        user_settings = NULL;
+    }
+}
+
 void exit_toxic_success(Tox *m)
 {
     store_data(m, DATA_FILE);
@@ -131,10 +152,7 @@ void exit_toxic_success(Tox *m)
     terminate_audio();
 #endif /* AUDIO */
 
-    free(DATA_FILE);
-    free(BLOCK_FILE);
-    free(user_settings);
-
+    free_global_data();
     tox_kill(m);
     endwin();
 
@@ -150,6 +168,7 @@ void exit_toxic_success(Tox *m)
 
 void exit_toxic_err(const char *errmsg, int errcode)
 {
+    free_global_data();
     freopen("/dev/tty", "w", stderr);
     endwin();
     fprintf(stderr, "Toxic session aborted with error code %d (%s)\n", errcode, errmsg);
@@ -276,22 +295,39 @@ static int load_nodelist(const char *filename)
     char line[MAX_NODE_LINE];
 
     while (fgets(line, sizeof(line), fp) && toxNodes.lines < MAXNODES) {
-        if (strlen(line) > MIN_NODE_LINE) {
+        size_t line_len = strlen(line);
+
+        if (line_len >= MIN_NODE_LINE && line_len <= MAX_NODE_LINE) {
             const char *name = strtok(line, " ");
-            const char *port = strtok(NULL, " ");
+            const char *port_str = strtok(NULL, " ");
             const char *key_ascii = strtok(NULL, " ");
 
-            /* invalid line */
-            if (name == NULL || port == NULL || key_ascii == NULL)
+            if (name == NULL || port_str == NULL || key_ascii == NULL)
+                continue;
+
+            long int port = strtol(port_str, NULL, 10);
+
+            if (port <= 0 || port > MAX_PORT_RANGE)
+                continue;
+
+            size_t key_len = strlen(key_ascii);
+            size_t name_len = strlen(name);
+
+            if (key_len < TOX_PUBLIC_KEY_SIZE * 2 || name_len >= NODELEN)
                 continue;
 
             snprintf(toxNodes.nodes[toxNodes.lines], sizeof(toxNodes.nodes[toxNodes.lines]), "%s", name);
             toxNodes.nodes[toxNodes.lines][NODELEN - 1] = 0;
-            toxNodes.ports[toxNodes.lines] = atoi(port);
+            toxNodes.ports[toxNodes.lines] = port;
 
-            char *key_binary = hex_string_to_bin(key_ascii);
-            memcpy(toxNodes.keys[toxNodes.lines], key_binary, TOX_PUBLIC_KEY_SIZE);
-            free(key_binary);
+            /* remove possible trailing newline from key string */
+            char real_ascii_key[TOX_PUBLIC_KEY_SIZE * 2 + 1];
+            memcpy(real_ascii_key, key_ascii, TOX_PUBLIC_KEY_SIZE * 2);
+            key_len = TOX_PUBLIC_KEY_SIZE * 2;
+            real_ascii_key[key_len] = '\0';
+
+            if (hex_string_to_bin(real_ascii_key, key_len, toxNodes.keys[toxNodes.lines], TOX_PUBLIC_KEY_SIZE) == -1)
+                continue;
 
             toxNodes.lines++;
         }
@@ -774,10 +810,14 @@ static void do_bootstrap(Tox *m)
 
 static void do_toxic(Tox *m, ToxWindow *prompt)
 {
-    if (arg_opts.no_connect)
-        return;
-
     pthread_mutex_lock(&Winthread.lock);
+    update_unix_time();
+
+    if (arg_opts.no_connect) {
+        pthread_mutex_unlock(&Winthread.lock);
+        return;
+    }
+
     tox_iterate(m);
     do_bootstrap(m);
     check_file_transfer_timeouts(m);
@@ -789,6 +829,7 @@ static void do_toxic(Tox *m, ToxWindow *prompt)
 void *thread_winref(void *data)
 {
     Tox *m = (Tox *) data;
+
     uint8_t draw_count = 0;
     init_signal_catchers();
 
@@ -902,6 +943,7 @@ static void parse_args(int argc, char *argv[])
 
     const char *opts_str = "4bdehotuxc:f:n:r:p:P:T:";
     int opt, indexptr;
+    long int port = 0;
 
     while ((opt = getopt_long(argc, argv, opts_str, long_opts, &indexptr)) != -1) {
         switch (opt) {
@@ -933,10 +975,22 @@ static void parse_args(int argc, char *argv[])
 
             case 'f':
                 arg_opts.use_custom_data = 1;
-                DATA_FILE = strdup(optarg);
+
+                if (DATA_FILE)
+                    free(DATA_FILE);
+
+                if (BLOCK_FILE)
+                    free(BLOCK_FILE);
+
+                DATA_FILE = malloc(strlen(optarg) + 1);
+                strcpy(DATA_FILE, optarg);
+
+                if (DATA_FILE == NULL)
+                    exit_toxic_err("failed in parse_args", FATALERR_MEMORY);
+
                 BLOCK_FILE = malloc(strlen(optarg) + strlen("-blocklist") + 1);
 
-                if (DATA_FILE == NULL || BLOCK_FILE == NULL)
+                if (BLOCK_FILE == NULL)
                     exit_toxic_err("failed in parse_args", FATALERR_MEMORY);
 
                 strcpy(BLOCK_FILE, optarg);
@@ -966,7 +1020,12 @@ static void parse_args(int argc, char *argv[])
                 if (++optind > argc || argv[optind-1][0] == '-')
                     exit_toxic_err("Proxy error", FATALERR_PROXY);
 
-                arg_opts.proxy_port = (uint16_t) atoi(argv[optind-1]);
+                port = strtol(argv[optind-1], NULL, 10);
+
+                if (port <= 0 || port > MAX_PORT_RANGE)
+                    exit_toxic_err("Proxy error", FATALERR_PROXY);
+
+                arg_opts.proxy_port = port;
                 break;
 
             case 'P':
@@ -976,7 +1035,12 @@ static void parse_args(int argc, char *argv[])
                 if (++optind > argc || argv[optind-1][0] == '-')
                     exit_toxic_err("Proxy error", FATALERR_PROXY);
 
-                arg_opts.proxy_port = (uint16_t) atoi(argv[optind-1]);
+                port = strtol(argv[optind-1], NULL, 10);
+
+                if (port <= 0 || port > MAX_PORT_RANGE)
+                    exit_toxic_err("Proxy error", FATALERR_PROXY);
+
+                arg_opts.proxy_port = port;
                 break;
 
             case 'r':
@@ -992,7 +1056,12 @@ static void parse_args(int argc, char *argv[])
                 break;
 
             case 'T':
-                arg_opts.tcp_port = (uint16_t) atoi(optarg);
+                port = strtol(optarg, NULL, 10);
+
+                if (port <= 0 || port > MAX_PORT_RANGE)
+                    port = 14191;
+
+                arg_opts.tcp_port = port;
                 break;
 
             case 'u':
@@ -1007,28 +1076,66 @@ static void parse_args(int argc, char *argv[])
     }
 }
 
-#define DATANAME "data"
-#define BLOCKNAME "data-blocklist"
-static int init_default_data_files(void)
+/* Looks for an old default profile data file and blocklist, and renames them to the new default names.
+ *
+ * Returns 0 on success.
+ * Returns -1 on failure.
+ */
+#define OLD_DATA_NAME "data"
+#define OLD_DATA_BLOCKLIST_NAME "data-blocklist"
+static int rename_old_profile(const char *user_config_dir)
 {
-    if (arg_opts.use_custom_data)
+    char old_data_file[strlen(user_config_dir) + strlen(CONFIGDIR) + strlen(OLD_DATA_NAME) + 1];
+    snprintf(old_data_file, sizeof(old_data_file), "%s%s%s", user_config_dir, CONFIGDIR, OLD_DATA_NAME);
+
+    if (!file_exists(old_data_file))
         return 0;
 
+    if (rename(old_data_file, DATA_FILE) != 0)
+        return -1;
+
+    queue_init_message("Data file has been moved to %s", DATA_FILE);
+
+    char old_data_blocklist[strlen(user_config_dir) + strlen(CONFIGDIR) + strlen(OLD_DATA_BLOCKLIST_NAME) + 1];
+    snprintf(old_data_blocklist, sizeof(old_data_blocklist), "%s%s%s", user_config_dir, CONFIGDIR, OLD_DATA_BLOCKLIST_NAME);
+
+    if (!file_exists(old_data_blocklist))
+        return 0;
+
+    if (rename(old_data_blocklist, BLOCK_FILE) != 0)
+        return -1;
+
+    return 0;
+}
+
+/* Initializes the default config directory and data files used by toxic.
+ *
+ * Exits the process with an error on failure.
+ */
+static void init_default_data_files(void)
+{
+    if (arg_opts.use_custom_data)
+        return;
+
     char *user_config_dir = get_user_config_dir();
+
+    if (user_config_dir == NULL)
+        exit_toxic_err("failed in init_default_data_files()", FATALERR_FILEOP);
+
     int config_err = create_user_config_dirs(user_config_dir);
 
-    if (config_err) {
+    if (config_err == -1) {
         DATA_FILE = strdup(DATANAME);
         BLOCK_FILE = strdup(BLOCKNAME);
 
         if (DATA_FILE == NULL || BLOCK_FILE == NULL)
-            exit_toxic_err("failed in load_data_structures", FATALERR_MEMORY);
+            exit_toxic_err("failed in init_default_data_files()", FATALERR_MEMORY);
     } else {
         DATA_FILE = malloc(strlen(user_config_dir) + strlen(CONFIGDIR) + strlen(DATANAME) + 1);
         BLOCK_FILE = malloc(strlen(user_config_dir) + strlen(CONFIGDIR) + strlen(BLOCKNAME) + 1);
 
         if (DATA_FILE == NULL || BLOCK_FILE == NULL)
-            exit_toxic_err("failed in load_data_structures", FATALERR_MEMORY);
+            exit_toxic_err("failed in init_default_data_files()", FATALERR_MEMORY);
 
         strcpy(DATA_FILE, user_config_dir);
         strcat(DATA_FILE, CONFIGDIR);
@@ -1039,8 +1146,11 @@ static int init_default_data_files(void)
         strcat(BLOCK_FILE, BLOCKNAME);
     }
 
+    /* For backwards compatibility with old toxic profile names. TODO: remove this some day */
+    if (rename_old_profile(user_config_dir) == -1)
+        queue_init_message("Warning: Profile backwards compatibility failed.");
+
     free(user_config_dir);
-    return config_err;
 }
 
 #define REC_TOX_DO_LOOPS_PER_SEC 25
@@ -1062,18 +1172,20 @@ static useconds_t optimal_msleepval(uint64_t *looptimer, uint64_t *loopcount, ui
     return new_sleep;
 }
 
+// this doesn't do anything (yet)
 #ifdef X11
-// FIXME
 void DnD_callback(const char* asdv, DropType dt)
 {
-    if (dt != DT_plain)
-        return;
+    // if (dt != DT_plain)
+    //     return;
 
-   line_info_add(prompt, NULL, NULL, NULL, SYS_MSG, 0, 0, asdv);
+    // pthread_mutex_lock(&Winthread.lock);
+    // line_info_add(prompt, NULL, NULL, NULL, SYS_MSG, 0, 0, asdv);
+    // pthread_mutex_unlock(&Winthread.lock);
 }
 #endif /* X11 */
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     parse_args(argc, argv);
 
@@ -1090,7 +1202,8 @@ int main(int argc, char *argv[])
     /* Make sure all written files are read/writeable only by the current user. */
     umask(S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
-    int config_err = init_default_data_files();
+    init_default_data_files();
+
     bool datafile_exists = file_exists(DATA_FILE);
 
     if (datafile_exists)
@@ -1138,6 +1251,7 @@ int main(int argc, char *argv[])
     if (pthread_create(&cqueue_thread.tid, NULL, thread_cqueue, (void *) m) != 0)
         exit_toxic_err("failed in main", FATALERR_THREAD_CREATE);
 
+
 #ifdef AUDIO
 
     av = init_audio(prompt, m);
@@ -1157,13 +1271,6 @@ int main(int argc, char *argv[])
 
     init_notify(60, 3000);
 
-    const char *msg;
-
-    if (config_err) {
-        msg = "Unable to determine configuration directory. Defaulting to 'data' for data file...";
-        queue_init_message("%s", msg);
-    }
-
     if (settings_err == -1)
         queue_init_message("Failed to load user settings");
 
@@ -1171,7 +1278,10 @@ int main(int argc, char *argv[])
     if (init_mplex_away_timer(m) == -1)
         queue_init_message("Failed to init mplex auto-away.");
 
+    pthread_mutex_lock(&Winthread.lock);
     print_init_messages(prompt);
+    pthread_mutex_unlock(&Winthread.lock);
+
     cleanup_init_messages();
 
     /* set user avatar from config file. if no path is supplied tox_unset_avatar is called */
@@ -1185,7 +1295,6 @@ int main(int argc, char *argv[])
     uint64_t loopcount = 0;
 
     while (true) {
-        update_unix_time();
         do_toxic(m, prompt);
         uint64_t cur_time = get_unix_time();
 

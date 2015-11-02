@@ -1,3 +1,25 @@
+toxic (0.6.1+git20151102.r1572-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Add command to change the Tox ID nospam value
+  * Add note about logs not being encrypted
+  * Update DHTnodes
+  * Update README.md
+  * Replace DNS-based username lookups with HTTPS & drop utox.org support
+  * Remove travis script. Goodbye old friend
+  * Use a specified TLS cipher list for https name lookups
+  * Add more descriptive curl errors
+  * Handle case where system doesn't support any of the specified TLS cipher
+    suites
+  * rm redundant error message
+  * Force name lookups through proxy set by client
+  * Use proxy for DNS requests when type is SOCKS5
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 02 Nov 2015 13:49:03 +0000
+
 toxic (0.6.1+git20151020.r1559-1~deb8u+1) stable; urgency=medium
 
   * Backport to Jessie

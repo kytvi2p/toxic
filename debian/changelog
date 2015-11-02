@@ -1,3 +1,9 @@
+toxic (0.6.1+git20151102.r1572-1~deb8u+1) stable; urgency=medium
+
+  * Backport to Jessie
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 02 Nov 2015 23:49:24 +0000
+
 toxic (0.6.1+git20151102.r1572-1) unstable; urgency=medium
 
   [ Jfreegman ]
@@ -19,12 +25,6 @@ toxic (0.6.1+git20151102.r1572-1) unstable; urgency=medium
   * New upstream git snapshot
 
  -- Kill Your TV <killyourtv@i2pmail.org>  Mon, 02 Nov 2015 13:49:03 +0000
-
-toxic (0.6.1+git20151020.r1559-1~deb8u+1) stable; urgency=medium
-
-  * Backport to Jessie
-
- -- Kill Your TV <killyourtv@i2pmail.org>  Fri, 23 Oct 2015 19:30:57 +0000
 
 toxic (0.6.1+git20151020.r1559-1) unstable; urgency=medium
 

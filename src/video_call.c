@@ -188,6 +188,8 @@ void video_bit_rate_status_cb(ToxAV *av, uint32_t friend_number, uint32_t audio_
 
 void callback_recv_video_starting(uint32_t friend_number)
 {
+    return;
+
     Call* this_call = &CallControl.calls[friend_number];
 
     if ( this_call->vout_idx != -1 )
@@ -226,13 +228,6 @@ void callback_video_starting(uint32_t friend_number)
 }
 void callback_video_end(uint32_t friend_number)
 {
-    ToxWindow* windows = CallControl.prompt;
-
-    int i;
-    for (i = 0; i < MAX_WINDOWS_NUM; ++i)
-        if ( windows[i].is_call && windows[i].num == friend_number )
-            line_info_add(&windows[i], NULL, NULL, NULL, SYS_MSG, 0, 0, "Video capture ending.");
-
     stop_video_transmission(&CallControl.calls[friend_number], friend_number);
 }
 /*

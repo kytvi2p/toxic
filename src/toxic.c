@@ -84,7 +84,7 @@ ToxWindow *prompt = NULL;
 #define DATANAME  "toxic_profile.tox"
 #define BLOCKNAME "toxic_blocklist"
 
-#define AUTOSAVE_FREQ 60
+#define AUTOSAVE_FREQ 600
 #define MIN_PASSWORD_LEN 6
 #define MAX_PASSWORD_LEN 64
 
@@ -537,17 +537,18 @@ static void first_time_encrypt(const char *msg)
     system("clear");
 }
 
-/* Store Tox data to given location
+/* Store Tox profile data to given location
  *
- * Return 0 if stored successfully or ignoring data file.
- * Return -1 on error
+ * Return 0 if stored successfully.
+ * Return -1 on error.
  */
+#define TEMP_PROFILE_SAVE_NAME "toxic_profile.tmp"
 int store_data(Tox *m, const char *path)
 {
     if (path == NULL)
         return -1;
 
-    FILE *fp = fopen(path, "wb");
+    FILE *fp = fopen(TEMP_PROFILE_SAVE_NAME, "wb");
 
     if (fp == NULL)
         return -1;
@@ -583,6 +584,10 @@ int store_data(Tox *m, const char *path)
     }
 
     fclose(fp);
+
+    if (rename(TEMP_PROFILE_SAVE_NAME, path) != 0)
+        return -1;
+
     return 0;
 }
 
@@ -889,7 +894,7 @@ void *thread_cqueue(void *data)
 void *thread_av(void *data)
 {
     ToxAV *av = (ToxAV *) data;
-    
+
     while (true) {
         pthread_mutex_lock(&Winthread.lock);
         toxav_iterate(av);
@@ -1101,6 +1106,9 @@ static int rename_old_profile(const char *user_config_dir)
     if (!file_exists(old_data_file))
         return 0;
 
+    if (file_exists(DATA_FILE))
+        return 0;
+
     if (rename(old_data_file, DATA_FILE) != 0)
         return -1;
 
@@ -1110,6 +1118,9 @@ static int rename_old_profile(const char *user_config_dir)
     snprintf(old_data_blocklist, sizeof(old_data_blocklist), "%s%s%s", user_config_dir, CONFIGDIR, OLD_DATA_BLOCKLIST_NAME);
 
     if (!file_exists(old_data_blocklist))
+        return 0;
+
+    if (file_exists(BLOCK_FILE))
         return 0;
 
     if (rename(old_data_blocklist, BLOCK_FILE) != 0)
@@ -1276,7 +1287,7 @@ int main(int argc, char **argv)
 #ifdef AUDIO
 
     av = init_audio(prompt, m);
-    
+
 #ifdef VIDEO
     init_video(prompt, m);
 
@@ -1319,6 +1330,7 @@ int main(int argc, char **argv)
 
     while (true) {
         do_toxic(m, prompt);
+
         uint64_t cur_time = get_unix_time();
 
         if (timed_out(last_save, AUTOSAVE_FREQ)) {

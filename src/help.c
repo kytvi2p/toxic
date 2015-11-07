@@ -151,6 +151,7 @@ static void help_draw_global(ToxWindow *self)
     wprintw(win, "  /status <type> <msg>       : Set status with optional note\n");
     wprintw(win, "  /note <msg>                : Set a personal note\n");
     wprintw(win, "  /nick <nick>               : Set your nickname\n");
+    wprintw(win, "  /nospam                    : Change part of your Tox ID to stop spam\n");
     wprintw(win, "  /log <on> or <off>         : Enable/disable logging\n");
     wprintw(win, "  /group <type>              : Create a group chat where type: text | audio\n");
     wprintw(win, "  /myid                      : Print your Tox ID\n");
@@ -166,6 +167,15 @@ static void help_draw_global(ToxWindow *self)
     wprintw(win, "  /lsdev <type>              : List devices where type: in|out\n");
     wprintw(win, "  /sdev <type> <id>          : Set active device\n");
 #endif /* AUDIO */
+
+#ifdef VIDEO
+    wattron(win, A_BOLD);
+    wprintw(win, "\n Video:\n");
+    wattroff(win, A_BOLD);
+
+    wprintw(win, "  /lsvdev <type>             : List video devices where type: in|out\n");
+    wprintw(win, "  /svdev <type> <id>         : Set active video device\n");
+#endif /* VIDEO */
 
     help_draw_bottom_menu(win);
 
@@ -202,6 +212,13 @@ static void help_draw_chat(ToxWindow *self)
     wprintw(win, "  /mute <type>               : Mute active device if in call\n");
     wprintw(win, "  /sense <n>                 : VAD sensitivity threshold\n");
 #endif /* AUDIO */
+
+#ifdef VIDEO
+    wattron(win, A_BOLD);
+    wprintw(win, "\n Video:\n");
+    wattroff(win, A_BOLD);
+    wprintw(win, "  /video                     : Toggle video call\n");
+#endif /* VIDEO */
 
     help_draw_bottom_menu(win);
 
@@ -282,7 +299,9 @@ void help_onKey(ToxWindow *self, wint_t key)
             break;
 
         case 'c':
-#ifdef AUDIO
+#ifdef VIDEO
+            help_init_window(self, 22, 80);
+#elif AUDIO
             help_init_window(self, 19, 80);
 #else
             help_init_window(self, 9, 80);
@@ -291,10 +310,11 @@ void help_onKey(ToxWindow *self, wint_t key)
             break;
 
         case 'g':
-#ifdef AUDIO
-            help_init_window(self, 24, 80);
+#ifdef VIDEO
+            help_init_window(self, 29, 80);
+#elif AUDIO
 #else
-            help_init_window(self, 20, 80);
+            help_init_window(self, 21, 80);
 #endif
             self->help->type = HELP_GLOBAL;
             break;

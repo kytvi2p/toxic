@@ -59,7 +59,7 @@
 #include "help.h"
 #include "notify.h"
 #include "autocomplete.h"
-#include "device.h"
+#include "audio_device.h"
 
 extern char *DATA_FILE;
 
@@ -837,7 +837,7 @@ static int group_audio_close_out_device(int groupnum)
 //     return 0;
 // }
 
-static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, int groupnum, int peernum, const int16_t *pcm,
+static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, uint32_t groupnum, int peernum, const int16_t *pcm,
                                     unsigned int samples, uint8_t channels, unsigned int sample_rate)
 {
     return;

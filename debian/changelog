@@ -1,3 +1,120 @@
+toxic (0.6.1+git20151103.r1641-1) unstable; urgency=medium
+
+  [ JFreegman ]
+  * Update .travis.yml
+
+  [ Ansa89 ]
+  * Makefile: add uninstall target
+
+  [ JFreegman ]
+  * Update .travis.yml
+
+  [ Jfreegman ]
+  * fix a few avatar bugs
+
+  [ Ansa89 ]
+  * Makefile: try to fix Tox/toxic#307
+
+  [ Jfreegman ]
+  * fix possible segfault
+  * null terminate status message
+  * try to fall back to ipv4 if tox fails to init with ipv6
+  * not clear which error message is given for ipv6 failure
+  * correctly handle tox_new errors
+  * default tox options on initialization
+  * toxcore API changes to tox_new
+  * separate bootstrapping and adding TCP relays per toxcore API changes
+
+  [ cnhenry ]
+  * Implemented OpenCV demo to demonstrate video device listing and set up
+    code structure for video
+  * Began conversion of audio code to new ToxAV API
+  * Implemented audio calls using new ToxAV API
+  * Refactoring and fix related to invite callback not being fired
+
+  [ Ansa89 ]
+  * travis.yml: update dependencies
+  * Add localization system (gettext)
+  * Add localization system (gettext)
+
+  [ Jfreegman ]
+  * s/tox.im/tox.chat/g -- reflect new tox domain
+  * Fix some possible race conditions related to line printing
+  * update translations
+  * Revert commit 312d0c3 (localization/gettext) There were serious problems
+    with branch merging that need to be resolved first
+  * Add option to enable acting as TCP relay server
+  * Update dht nodes list and fix URL's
+
+  [ Mykola Orliuk ]
+  * Makefile: allow overriding pkg-config
+
+  [ Jfreegman ]
+  * fix rare bug preventing toxcore from sleeping
+
+  [ JFreegman ]
+  * Remove links to libtoxcore.so from readme
+
+  [ Jfreegman ]
+  * Fix file transfers breaking when friends go offline
+  * Send file control cancel on failure to resume transfer
+  * <not having red text
+
+  [ cnhenry ]
+  * Added video_device.h file
+  * Began implementing video_device.*
+  * Obtain names of video devices using v4l
+  * Fixes to av.mk
+  * Progress on implementing v4l2 in video_device.*
+  * Modified header files structuring
+  * Progress on video call windows using X11
+  * Implemented video preview and preparations for ToxAV
+  * Fixed incorrect colors during video capture
+  * Implemented /endvideo command
+  * Implemented video frames ready to send through ToxAV. NOTE: Contains YUV
+    stride issues
+  * Fixed YUV stride issues
+  * Fixed v4l2 capture crash, and refactored to prepare for new features
+  * Major refactoring and fixes towards AV
+  * Refactored video calls
+  * Fixed video call receiving issues
+  * Changed to toggle video command rather than two separate commands
+  * Fixed incorrect video device listing
+  * Clear warnings from device listing fix
+  * Prevented user from manually closing video windows
+  * Small fix to video cleanup
+  * Refactored cmd_video function
+  * Refactoring to compliment OSX
+  * Implemented OSX device listing
+  * Implemented video calls for OSX
+
+  [ Jfreegman ]
+  * Update DHTnodes
+
+  [ Khalikin Viachaslau ]
+  * fix a broken link
+
+  [ Jfreegman ]
+  * simplify timeout function
+  * Fix some filetransfer issues - File transfers now timeout properly - Small
+    refactor related to creating new transfers
+  * Display a user warning when log fails to initialize
+  * Fix some new AV api changes
+
+  [ Eniz Vukovic ]
+  * Disabled video calls for the time being
+
+  [ Jfreegman ]
+  * A couple audio fixes (ugly but works) - You will now receive an incoming
+    call even if the caller's chat window is not opened - Callbacks should all
+    be working now - Disable video command as video is currently broken
+  * Fix some build issues
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Wed, 04 Nov 2015 21:23:58 +0000
+
 toxic (0.6.1+git20151102.r1572-1~deb8u+1) stable; urgency=medium
 
   * Backport to Jessie

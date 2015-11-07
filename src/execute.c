@@ -53,6 +53,7 @@ static struct cmd_func global_commands[] = {
     { "/myid",      cmd_myid          },
     { "/nick",      cmd_nick          },
     { "/note",      cmd_note          },
+    { "/nospam",    cmd_nospam        },
     { "/q",         cmd_quit          },
     { "/quit",      cmd_quit          },
     { "/requests",  cmd_requests      },
@@ -61,6 +62,10 @@ static struct cmd_func global_commands[] = {
     { "/lsdev",     cmd_list_devices  },
     { "/sdev",      cmd_change_device },
 #endif /* AUDIO */
+#ifdef VIDEO
+    { "/lsvdev",    cmd_list_video_devices },
+    { "/svdev" ,    cmd_change_video_device },
+#endif /* VIDEO */
     { NULL,         NULL              },
 };
 
@@ -78,6 +83,9 @@ static struct cmd_func chat_commands[] = {
     { "/mute",      cmd_mute        },
     { "/sense",     cmd_sense       },
 #endif /* AUDIO */
+#ifdef VIDEO
+    { "/video",     cmd_video       },
+#endif /* VIDEO */
     { NULL,         NULL            },
 };
 

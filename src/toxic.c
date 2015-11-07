@@ -54,10 +54,11 @@
 #include "settings.h"
 #include "log.h"
 #include "notify.h"
-#include "device.h"
+#include "audio_device.h"
 #include "message_queue.h"
 #include "execute.h"
 #include "term_mplex.h"
+#include "name_lookup.h"
 
 #ifdef X11
     #include "xtra.h"
@@ -65,7 +66,10 @@
 
 #ifdef AUDIO
 #include "audio_call.h"
-ToxAv *av;
+#ifdef VIDEO
+#include "video_call.h"
+#endif /* VIDEO */
+ToxAV *av;
 #endif /* AUDIO */
 
 #ifndef PACKAGE_DATADIR
@@ -86,7 +90,7 @@ ToxWindow *prompt = NULL;
 
 struct Winthread Winthread;
 struct cqueue_thread cqueue_thread;
-struct audio_thread audio_thread;
+struct av_thread av_thread;
 struct arg_opts arg_opts;
 struct user_settings *user_settings = NULL;
 
@@ -149,12 +153,18 @@ void exit_toxic_success(Tox *m)
     terminate_notify();
 
 #ifdef AUDIO
+
+#ifdef VIDEO
+    terminate_video();
+#endif /* VIDEO */
+
     terminate_audio();
 #endif /* AUDIO */
 
     free_global_data();
     tox_kill(m);
     endwin();
+    name_lookup_cleanup();
 
 #ifdef X11
     /* We have to terminate xtra last coz reasons
@@ -876,16 +886,16 @@ void *thread_cqueue(void *data)
 }
 
 #ifdef AUDIO
-void *thread_audio(void *data)
+void *thread_av(void *data)
 {
-    ToxAv *av = (ToxAv *) data;
-
+    ToxAV *av = (ToxAV *) data;
+    
     while (true) {
         pthread_mutex_lock(&Winthread.lock);
-        toxav_do(av);
+        toxav_iterate(av);
         pthread_mutex_unlock(&Winthread.lock);
 
-        usleep(toxav_do_interval(av) * 1000);
+        usleep(toxav_iteration_interval(av) * 1000);
     }
 }
 #endif  /* AUDIO */
@@ -904,7 +914,7 @@ static void print_usage(void)
     fprintf(stderr, "  -o, --noconnect          Do not connect to the DHT network\n");
     fprintf(stderr, "  -p, --SOCKS5-proxy       Use SOCKS5 proxy: Requires [IP] [port]\n");
     fprintf(stderr, "  -P, --HTTP-proxy         Use HTTP proxy: Requires [IP] [port]\n");
-    fprintf(stderr, "  -r, --dnslist            Use specified DNSservers file\n");
+    fprintf(stderr, "  -r, --namelist           Use specified name lookup server list\n");
     fprintf(stderr, "  -t, --force-tcp          Force toxic to use a TCP connection (use with proxies)\n");
     fprintf(stderr, "  -T, --tcp-server         Act as a TCP relay server: Requires [port]\n");
     fprintf(stderr, "  -u, --unencrypt-data     Unencrypt an encrypted data file\n");
@@ -932,7 +942,7 @@ static void parse_args(int argc, char *argv[])
         {"nodes", required_argument, 0, 'n'},
         {"help", no_argument, 0, 'h'},
         {"noconnect", no_argument, 0, 'o'},
-        {"dnslist", required_argument, 0, 'r'},
+        {"namelist", required_argument, 0, 'r'},
         {"force-tcp", no_argument, 0, 't'},
         {"tcp-server", required_argument, 0, 'T'},
         {"SOCKS5-proxy", required_argument, 0, 'p'},
@@ -1044,10 +1054,10 @@ static void parse_args(int argc, char *argv[])
                 break;
 
             case 'r':
-                snprintf(arg_opts.dns_path, sizeof(arg_opts.dns_path), "%s", optarg);
+                snprintf(arg_opts.nameserver_path, sizeof(arg_opts.nameserver_path), "%s", optarg);
 
-                if (!file_exists(arg_opts.dns_path))
-                    queue_init_message("DNSservers file not found");
+                if (!file_exists(arg_opts.nameserver_path))
+                    queue_init_message("nameserver list not found");
 
                 break;
 
@@ -1222,7 +1232,18 @@ int main(int argc, char **argv)
         exit_toxic_err("failed in main", FATALERR_MEMORY);
 
     const char *p = arg_opts.config_path[0] ? arg_opts.config_path : NULL;
-    int settings_err = settings_load(user_settings, p);
+
+    if (settings_load(user_settings, p) == -1)
+         queue_init_message("Failed to load user settings");
+
+    int nameserver_ret = name_lookup_init();
+
+    if (nameserver_ret == -1)
+        queue_init_message("curl failed to initialize; name lookup service is disabled.");
+    else if (nameserver_ret == -2)
+        queue_init_message("Name lookup server list could not be found.");
+    else if (nameserver_ret == -3)
+        queue_init_message("Name lookup server list does not contain any valid entries.");
 
 #ifdef X11
     if (init_xtra(DnD_callback) == -1)
@@ -1255,9 +1276,14 @@ int main(int argc, char **argv)
 #ifdef AUDIO
 
     av = init_audio(prompt, m);
+    
+#ifdef VIDEO
+    init_video(prompt, m);
 
-    /* audio thread */
-    if (pthread_create(&audio_thread.tid, NULL, thread_audio, (void *) av) != 0)
+#endif /* VIDEO */
+
+    /* AV thread */
+    if (pthread_create(&av_thread.tid, NULL, thread_av, (void *) av) != 0)
         exit_toxic_err("failed in main", FATALERR_THREAD_CREATE);
 
     set_primary_device(input, user_settings->audio_in_dev);
@@ -1270,9 +1296,6 @@ int main(int argc, char **argv)
 #endif /* AUDIO */
 
     init_notify(60, 3000);
-
-    if (settings_err == -1)
-        queue_init_message("Failed to load user settings");
 
     /* screen/tmux auto-away timer */
     if (init_mplex_away_timer(m) == -1)

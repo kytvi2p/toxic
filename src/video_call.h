@@ -1,4 +1,4 @@
-/*  dns.c
+/*  video_call.h
  *
  *
  *  Copyright (C) 2014 Toxic All Rights Reserved.
@@ -20,13 +20,24 @@
  *
  */
 
-/* Does DNS lookup for addr and puts resulting tox id in id_bin.
-   Return 0 on success, -1 on failure. */
+#ifndef VIDEO_CALL_H
+#define VIDEO_CALL_H
 
-#ifndef DNS_H
-#define DNS_H
+#include <tox/toxav.h>
 
-/* creates new thread for dns3 lookup. Only allows one lookup at a time. */
-void dns3_lookup(ToxWindow *self, Tox *m, const char *id_bin, const char *addr, const char *msg);
+#include "audio_call.h"
+ 
+#include "video_device.h"
 
-#endif /* #define DNS_H */
+/* You will have to pass pointer to first member of 'windows' declared in windows.c */
+ToxAV *init_video(ToxWindow *self, Tox *tox);
+void terminate_video();
+int start_video_transmission(ToxWindow *self, ToxAV *av, Call *call);
+int stop_video_transmission(Call *call, int friend_number);
+
+void callback_recv_video_starting(uint32_t friend_number);
+void callback_recv_video_end(uint32_t friend_number);
+void callback_video_starting(uint32_t friend_number);
+void callback_video_end(uint32_t friend_number);
+
+#endif /* VIDEO_CALL_H */

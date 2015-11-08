@@ -1,3 +1,19 @@
+toxic (0.6.1+git20151107.r1648-1) unstable; urgency=medium
+
+  [ Jfreegman ]
+  * Remove unnecessary/misleading line print
+  * Disable recv video callback for now
+  * Fix bug causing profile to be overwritten under a rare condition
+  * Save data in a safer manner By saving to a temp file then renaming it we
+    avoid the possibility of data corruption due to an interrupt (hard reboot,
+    power outage etc.)
+  * Fix help menu
+
+  [ Kill Your TV ]
+  * New upstream git snapshot
+
+ -- Kill Your TV <killyourtv@i2pmail.org>  Sat, 07 Nov 2015 22:30:39 +0000
+
 toxic (0.6.1+git20151103.r1641-1) unstable; urgency=medium
 
   [ JFreegman ]

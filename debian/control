@@ -9,10 +9,10 @@ Build-Depends: debhelper (>= 9),
  libncursesw5-dev,
 # libnotify-dev,
  libopenal-dev,
- libtoxav-dev (>= 0.0.0+20150403.r3300),
- libtoxcore-dev (>= 0.0.0+20150403.r3300),
- libtoxdns-dev (>= 0.0.0+20140928.1),
- libtoxencryptsave-dev (>= 0.0.0+20150403.r3300)
+ libtoxav-dev (>= 0.0.0+20151103.r3638),
+ libtoxcore-dev (>= 0.0.0+20151103.r3638),
+ libtoxdns-dev (>= 0.0.0+20151103.r3638),
+ libtoxencryptsave-dev (>= 0.0.0+20151103.r3638)
 Standards-Version: 3.9.6
 Homepage: https://github.com/Tox/toxic
 Vcs-Git: git://killyourtv.i2p/git/toxic.git

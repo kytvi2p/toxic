@@ -59,7 +59,7 @@
 #include "help.h"
 #include "notify.h"
 #include "autocomplete.h"
-#include "device.h"
+#include "audio_device.h"
 
 extern char *DATA_FILE;
 
@@ -70,9 +70,9 @@ extern struct user_settings *user_settings;
 extern struct Winthread Winthread;
 
 #ifdef AUDIO
-#define AC_NUM_GROUP_COMMANDS 22
+#define AC_NUM_GROUP_COMMANDS 23
 #else
-#define AC_NUM_GROUP_COMMANDS 18
+#define AC_NUM_GROUP_COMMANDS 19
 #endif /* AUDIO */
 
 /* Array of groupchat command names used for tab completion. */
@@ -91,6 +91,7 @@ static const char group_cmd_list[AC_NUM_GROUP_COMMANDS][MAX_CMDNAME_SIZE] = {
     { "/myid"       },
     { "/nick"       },
     { "/note"       },
+    { "/nospam"     },
     { "/quit"       },
     { "/requests"   },
     { "/status"     },
@@ -836,7 +837,7 @@ static int group_audio_close_out_device(int groupnum)
 //     return 0;
 // }
 
-static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, int groupnum, int peernum, const int16_t *pcm,
+static void groupchat_onWriteDevice(ToxWindow *self, Tox *m, uint32_t groupnum, int peernum, const int16_t *pcm,
                                     unsigned int samples, uint8_t channels, unsigned int sample_rate)
 {
     return;
